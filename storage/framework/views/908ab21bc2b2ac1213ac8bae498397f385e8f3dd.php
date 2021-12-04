@@ -97,7 +97,7 @@
     <div id="receipt-data">
         <div class="centered">
             <?php if($general_setting->site_logo): ?>
-                <img src="<?php echo e(url('public/logo', $general_setting->site_logo)); ?>" height="42"  style="margin:10px 0;margin-top: -0px !important;filter: grayscale(100%">
+                <img src="<?php echo e(url('public/logo', $general_setting->site_logo)); ?>" height="120"  style="margin:10px 0;margin-top: -0px !important;filter: grayscale(100%">
             <?php endif; ?>
             
             <h1 style="font-size:20px"><?php echo e($lims_biller_data->company_name); ?></h1>
@@ -114,7 +114,7 @@
             <tbody>
                 <tr style="border:none">
                 <td colspan="2" style="text-align:left"><?php echo e(trans('file.Invoice')); ?> <br> <?php echo e($lims_sale_data->reference_no); ?></td>
-                <td style="text-align:right"><?php echo e(trans('file.Date')); ?> <br> <?php echo e($lims_sale_data->created_at->format('d/m/Y')); ?></td>
+                <td style="text-align:right"><?php echo e(trans('file.Date')); ?> <br> <?php echo e($lims_sale_data->created_at->format('d/m/Y h:s')); ?></td>
             </tr>
             </tbody>
         </table>

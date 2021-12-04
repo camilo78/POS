@@ -97,7 +97,7 @@
     <div id="receipt-data">
         <div class="centered">
             @if($general_setting->site_logo)
-                <img src="{{url('public/logo', $general_setting->site_logo)}}" height="42"  style="margin:10px 0;margin-top: -0px !important;filter: grayscale(100%">
+                <img src="{{url('public/logo', $general_setting->site_logo)}}" height="120"  style="margin:10px 0;margin-top: -0px !important;filter: grayscale(100%">
             @endif
             
             <h1 style="font-size:20px">{{$lims_biller_data->company_name}}</h1>
@@ -112,7 +112,7 @@
             <tbody>
                 <tr style="border:none">
                 <td colspan="2" style="text-align:left">{{trans('file.Invoice')}} <br> {{$lims_sale_data->reference_no}}</td>
-                <td style="text-align:right">{{trans('file.Date')}} <br> {{$lims_sale_data->created_at->format('d/m/Y')}}</td>
+                <td style="text-align:right">{{trans('file.Date')}} <br> {{$lims_sale_data->created_at->format('d/m/Y h:s')}}</td>
             </tr>
             </tbody>
         </table>

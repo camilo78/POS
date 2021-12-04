@@ -290,9 +290,9 @@ return [
 	"Import Category" => "Importar categorías",
 	"Parent Category" => "Categoría principal",
 	"Product Image" => "Imagen del producto",
-	"Product Name" => "nombre del producto",
+	"Product Name" => "Nombre del producto",
 	"Product Code" => "Código de producto",
-	"Product Type" => "tipo de producto",
+	"Product Type" => "Tipo de producto",
 	"Product Unit" => "Unidad de producto",
 	"Sale Unit" => "Unidad de venta",
 	"Purchase Unit" => "Unidad de compra",
@@ -615,7 +615,8 @@ return [
     "period" => "período",
     "Type description..." => "Escriba una Descripción...",
     "CAI" => "CAI",
-    "Inactive" => "Inactivo"
+    "Inactive" => "Inactivo",
+    "This product has batch and expired date" => "Este producto tiene una fecha de elaboración y vencimiento."
 
 ];
 ?>
