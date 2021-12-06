@@ -616,7 +616,5 @@ return [
     "Type description..." => "Escriba una Descripción...",
     "CAI" => "CAI",
     "Inactive" => "Inactivo",
-    "This product has batch and expired date" => "Este producto tiene una fecha de elaboración y vencimiento."
-
-];
-?>
+    "This product has batch and expired date" => "Este producto tiene una fecha de elaboración y vencimiento.",
+    "product exceeds alert quantity"=>"baja cantidad de este producto"
