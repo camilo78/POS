@@ -65,13 +65,15 @@
             .hidden-print {
                 display: none !important;
             }
-            @page { margin: 0.0cm 0.9cm 0.0cm 0.0cm; }
+            @page { margin: 0.0cm 0.5cm 0.0cm -0.4cm; }
             @page:first { margin-bottom: 2cm; }
             tbody::after {
                 content: ''; display: block;
+            }
+            body{
                 page-break-after: always;
                 page-break-inside: avoid;
-                page-break-before: avoid;        
+                page-break-before: avoid;
             }
         }
     </style>
@@ -257,20 +259,11 @@
             @if($lims_sale_data->staff_note)
             <tr><td class="centered small" colspan="2">{{$lims_sale_data->staff_note}}</td></tr>
             @endif
+                <tr><td class="centered foot" style="font-size:11px" colspan="3">CAI: <br> {{$lims_sale_data->period->cai}}</td></tr>
+                <tr><td class="centered foot" colspan="3">RANGO AUTORIZADO: <br> {{$lims_sale_data->period->emission_point}}-{{$lims_sale_data->period->agency}}-{{$lims_sale_data->period->document_type}}-{{$lims_sale_data->period->rank_start}}/{{$lims_sale_data->period->rank_end}}</td></tr>
+                <tr><td class="centered foot" colspan="3">FECHA LIMITE DE EMISIÓN: <br> {{$lims_sale_data->period->deadline}}</td></tr>
                 <tr><td class="centered small" style="font-style: italic;" colspan="2">{{trans('file.Thank you for shopping with us. Please come again')}}</td></tr>
-             {{--    <tr><td class="centered foot" colspan="3">N° ORDE DE COMPRA EXENTA: 2523252 2 3225 2325 2</td></tr>
-                <tr><td class="centered foot" colspan="3">N° CONST. REGISTRO EXONERADO: 5256325625</td></tr>
-                <tr><td class="centered foot" colspan="3">N° REGISTRO SAG: 7856325-6985</td></tr> --}}
 
-                <tr><td class="centered foot" style="font-size:11px" colspan="3">CAI: {{$lims_sale_data->period->cai}}</td></tr>
-                <tr><td class="centered foot" colspan="3">RANGO AUTORIZADO: {{$lims_sale_data->period->emission_point}}-{{$lims_sale_data->period->agency}}-{{$lims_sale_data->period->document_type}}-{{$lims_sale_data->period->rank_start}}/{{$lims_sale_data->period->rank_end}}</td></tr>
-                <tr><td class="centered foot" colspan="3">FECHA LIMITE DE EMISIÓN: {{$lims_sale_data->period->deadline}}</td></tr>
-
-                <tr>
-                    <td class="centered" colspan="3">
-                    <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS1D::getBarcodePNG($lims_sale_data->reference_no, 'C128') . '" width="300" alt="barcode"   />';?>
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>
