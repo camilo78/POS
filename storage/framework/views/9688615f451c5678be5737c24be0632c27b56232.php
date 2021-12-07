@@ -2558,8 +2558,13 @@ $('button[name="update_btn"]').on("click", function() {
     var edit_qty = $('input[name="edit_qty"]').val();
     var edit_unit_price = $('input[name="edit_unit_price"]').val();
 
-    if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
+/*    if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
         alert('Invalid Discount Input!');
+        return;
+    }*/
+
+    if (parseFloat(edit_discount) > 99) {
+        alert('¡Porcentaje de descuento invalido!');
         return;
     }
 
@@ -2574,7 +2579,7 @@ $('button[name="update_btn"]').on("click", function() {
     tax_rate[rowindex] = localStorageTaxRate[rowindex] = parseFloat(tax_rate_all[$('select[name="edit_tax_rate"]').val()]);
     tax_name[rowindex] = localStorageTaxName[rowindex] = $('select[name="edit_tax_rate"] option:selected').text();
 
-    product_discount[rowindex] = $('input[name="edit_discount"]').val();
+    product_discount[rowindex] = $('input[name="edit_discount"]').val()/100 * edit_unit_price; // change to revert
     if(product_type[pos] == 'standard'){
         var row_unit_operator = unit_operator[rowindex].slice(0, unit_operator[rowindex].indexOf(","));
         var row_unit_operation_value = unit_operation_value[rowindex].slice(0, unit_operation_value[rowindex].indexOf(","));
@@ -2936,7 +2941,7 @@ function edit(){
     var qty = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val();
     $('input[name="edit_qty"]').val(qty);
 
-    $('input[name="edit_discount"]').val(parseFloat(product_discount[rowindex]).toFixed(2));
+    //$('input[name="edit_discount"]').val(parseFloat(product_discount[rowindex]).toFixed(2));
 
     var tax_name_all = <?php echo json_encode($tax_name_all) ?>;
     pos = tax_name_all.indexOf(tax_name[rowindex]);
