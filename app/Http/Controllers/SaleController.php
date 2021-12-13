@@ -347,22 +347,30 @@ class SaleController extends Controller
             $lims_pos_setting_data = PosSetting::latest()->first();
             $lims_reward_point_setting_data = RewardPointSetting::latest()->first();
 
-      // Facturación SAR
+            // Facturación SAR
+               // Facturación SAR
             $period_cash_register = CashRegister::where('user_id', Auth::user()->id)->where('status', 1)->first();
             if($period_cash_register){
-            $period_invoice_data = Period::where('id', $period_cash_register->period_id)->first();
-            if(null == Sale::where('cash_register_id', $period_cash_register->id)){
-                $last_sale_reference_no = substr(Sale::get('reference_no')->last()->reference_no, -8);
+                $period_invoice_data = Period::where('status', 1)->first();
+                $period_id = $period_invoice_data->id;
+                $last_sale_period = Sale::get()->first();
+                if($last_sale_period){
+                    $last_sale_reference_no = substr(Sale::get('reference_no')->last()->reference_no, -8);
+                    $correlative = str_pad($last_sale_reference_no + 1,8,"0",STR_PAD_LEFT);
+                   // dd($correlative);
+                }else{
+                    $last_sale_reference_no = 0;
+                    $correlative = str_pad(0 + 1,8,"0",STR_PAD_LEFT);
+                   // dd($last_sale_reference_no);
+                }
             }else{
-                $last_sale_reference_no = 0;
-            }
-            $correlative = str_pad($last_sale_reference_no + 1,8,"0",STR_PAD_LEFT);
-            }else{
+               // dd('null');
                 $period_invoice_data = 0;
                 $correlative = 0;
+                $period_id = 0;
             }
 
-            return view('sale.create',compact('lims_customer_list', 'lims_warehouse_list', 'lims_biller_list', 'lims_pos_setting_data', 'lims_tax_list', 'lims_reward_point_setting_data','period_invoice_data','correlative'));
+            return view('sale.create',compact('lims_customer_list', 'lims_warehouse_list', 'lims_biller_list', 'lims_pos_setting_data', 'lims_tax_list', 'lims_reward_point_setting_data','period_invoice_data','correlative','period_id'));
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
@@ -1026,9 +1034,9 @@ class SaleController extends Controller
             // Facturación SAR
             $period_cash_register = CashRegister::where('user_id', Auth::user()->id)->where('status', 1)->first();
             if($period_cash_register){
-                $period_invoice_data = Period::where('id', $period_cash_register->period_id)->first();
+                $period_invoice_data = Period::where('status', 1)->first();
                 $period_id = $period_invoice_data->id;
-                $last_sale_period = Sale::where('period_id', $period_cash_register->period_id)->first();
+                $last_sale_period = Sale::get()->first();
                 if($last_sale_period){
                     $last_sale_reference_no = substr(Sale::get('reference_no')->last()->reference_no, -8);
                     $correlative = str_pad($last_sale_reference_no + 1,8,"0",STR_PAD_LEFT);

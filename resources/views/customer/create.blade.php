@@ -61,14 +61,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{trans('file.Address')}} *</label>
-                                    <input type="text" name="address" required class="form-control">
+                                    <label>{{trans('file.Address')}} </label>
+                                    <input type="text" name="address"  class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{trans('file.City')}} *</label>
-                                    <input type="text" name="city" required class="form-control">
+                                    <label>{{trans('file.City')}} </label>
+                                    <input type="text" name="city"  class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">

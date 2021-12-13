@@ -52,3 +52,7 @@ div.has-error> .form-text {
     font-size: 1.2rem;
 }
 
+.is-warning{
+    border: 1px solid #e28d02 !important;
+}
+

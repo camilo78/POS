@@ -1,4 +1,5 @@
-@extends('layout.top-head') @section('content')
+@extends('layout.top-head')
+@section('content')
 @if($errors->has('phone_number'))
 <div class="alert alert-danger alert-dismissible text-center">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ $errors->first('phone_number') }}</div>
@@ -9,13 +10,21 @@
 @if(session()->has('not_permitted'))
   <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div> 
 @endif
+@if($period_invoice_data != null)
+<div class="alert-danger hidden p-2 justify-content-center d-flex" id="deadline_warning" role="alert">
+  ¡Faltan {{  Carbon\Carbon::now()->diffInDays($period_invoice_data->deadline)}} días para que se venza el período de facturación, comuniquese con el gestor(a)!
+</div>
+<div class=" alert-warning hidden p-2 justify-content-center d-flex" id="end_warning" role="alert">
+  ¡Faltan {{  $period_invoice_data->rank_end - $correlative }} facturas para que se termine el rango autorizado para el período de facturación, comuniquese con el gestor(a)!
+</div>
+@endif
 <!-- Side Navbar -->
 <nav class="side-navbar shrink">
     <div class="side-navbar-wrapper">
       <!-- Sidebar Header    -->
       <!-- Sidebar Navigation Menus-->
       <div class="main-menu">
-        <ul id="side-main-menu" class="side-menu list-unstyled">                  
+        <ul id="side-main-menu" class="side-menu list-unstyled">
           <li><a href="{{url('/')}}"> <i class="dripicons-meter"></i><span>{{ __('file.dashboard') }}</span></a></li>
           <?php
             $role = DB::table('roles')->find(Auth::user()->role_id);
@@ -43,13 +52,13 @@
                     ['role_id', $role->id]
                 ])->first();
           ?>
-          
+
           <li><a href="#product" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-list"></i><span>{{__('file.product')}}</span><span></a>
             <ul id="product" class="collapse list-unstyled ">
               <li id="category-menu"><a href="{{route('category.index')}}">{{__('file.category')}}</a></li>
               @if($index_permission_active)
               <li id="product-list-menu"><a href="{{route('products.index')}}">{{__('file.product_list')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'products-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -72,7 +81,7 @@
               @endif
             </ul>
           </li>
-          <?php 
+          <?php
             $index_permission = DB::table('permissions')->where('name', 'purchases-index')->first();
               $index_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $index_permission->id],
@@ -83,7 +92,7 @@
           <li><a href="#purchase" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-card"></i><span>{{trans('file.Purchase')}}</span></a>
             <ul id="purchase" class="collapse list-unstyled ">
               <li id="purchase-list-menu"><a href="{{route('purchases.index')}}">{{trans('file.Purchase List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'purchases-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -97,7 +106,7 @@
             </ul>
           </li>
           @endif
-          <?php 
+          <?php
             $index_permission = DB::table('permissions')->where('name', 'sales-index')->first();
             $index_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $index_permission->id],
@@ -116,12 +125,12 @@
                     ['role_id', $role->id]
                 ])->first();
           ?>
-          
+
           <li><a href="#sale" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-cart"></i><span>{{trans('file.Sale')}}</span></a>
             <ul id="sale" class="collapse list-unstyled ">
               @if($index_permission_active)
               <li id="sale-list-menu"><a href="{{route('sales.index')}}">{{trans('file.Sale List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'sales-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -143,7 +152,7 @@
               <li id="delivery-menu"><a href="{{route('delivery.index')}}">{{trans('file.Delivery List')}}</a></li>
             </ul>
           </li>
-          <?php 
+          <?php
             $index_permission = DB::table('permissions')->where('name', 'expenses-index')->first();
             $index_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $index_permission->id],
@@ -155,7 +164,7 @@
             <ul id="expense" class="collapse list-unstyled ">
               <li id="exp-cat-menu"><a href="{{route('expense_categories.index')}}">{{trans('file.Expense Category')}}</a></li>
               <li id="exp-list-menu"><a href="{{route('expenses.index')}}">{{trans('file.Expense List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'expenses-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -168,7 +177,7 @@
             </ul>
           </li>
           @endif
-          <?php 
+          <?php
             $index_permission = DB::table('permissions')->where('name', 'quotes-index')->first();
             $index_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $index_permission->id],
@@ -179,7 +188,7 @@
           <li><a href="#quotation" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-document"></i><span>{{trans('file.Quotation')}}</span><span></a>
             <ul id="quotation" class="collapse list-unstyled ">
               <li id="quotation-list-menu"><a href="{{route('quotations.index')}}">{{trans('file.Quotation List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'quotes-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -192,7 +201,7 @@
             </ul>
           </li>
           @endif
-          <?php 
+          <?php
             $index_permission = DB::table('permissions')->where('name', 'transfers-index')->first();
             $index_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $index_permission->id],
@@ -203,7 +212,7 @@
           <li><a href="#transfer" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-export"></i><span>{{trans('file.Transfer')}}</span></a>
             <ul id="transfer" class="collapse list-unstyled ">
               <li id="transfer-list-menu"><a href="{{route('transfers.index')}}">{{trans('file.Transfer List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'transfers-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -217,10 +226,10 @@
             </ul>
           </li>
           @endif
-          
+
           <li><a href="#return" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-return"></i><span>{{trans('file.return')}}</span></a>
             <ul id="return" class="collapse list-unstyled ">
-              <?php 
+              <?php
                 $index_permission = DB::table('permissions')->where('name', 'returns-index')->first();
                 $index_permission_active = DB::table('role_has_permissions')->where([
                         ['permission_id', $index_permission->id],
@@ -230,7 +239,7 @@
               @if($index_permission_active)
               <li id="sale-return-menu"><a href="{{route('return-sale.index')}}">{{trans('file.Sale')}}</a></li>
               @endif
-              <?php 
+              <?php
                 $index_permission = DB::table('permissions')->where('name', 'purchase-return-index')->first();
                 $index_permission_active = DB::table('role_has_permissions')->where([
                         ['permission_id', $index_permission->id],
@@ -242,7 +251,7 @@
               @endif
             </ul>
           </li>
-          <?php 
+          <?php
             $index_permission = DB::table('permissions')->where('name', 'account-index')->first();
             $index_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $index_permission->id],
@@ -287,7 +296,7 @@
             </ul>
           </li>
           @endif
-          <?php 
+          <?php
             $department = DB::table('permissions')->where('name', 'department')->first();
             $department_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $department->id],
@@ -309,7 +318,7 @@
                     ['role_id', $role->id]
                 ])->first();
           ?>
-          
+
           <li class=""><a href="#hrm" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user-group"></i><span>HRM</span></a>
             <ul id="hrm" class="collapse list-unstyled ">
               @if($department_active)
@@ -327,7 +336,7 @@
               <li id="holiday-menu"><a href="{{route('holidays.index')}}">{{trans('file.Holiday')}}</a></li>
             </ul>
           </li>
-          
+
           <li><a href="#people" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user"></i><span>{{trans('file.People')}}</span></a>
             <ul id="people" class="collapse list-unstyled ">
               <?php $index_permission_active = DB::table('permissions')
@@ -348,7 +357,7 @@
               <li id="user-create-menu"><a href="{{route('user.create')}}">{{trans('file.Add User')}}</a></li>
               @endif
               @endif
-              <?php 
+              <?php
                 $index_permission = DB::table('permissions')->where('name', 'customers-index')->first();
                 $index_permission_active = DB::table('role_has_permissions')->where([
                         ['permission_id', $index_permission->id],
@@ -357,7 +366,7 @@
               ?>
               @if($index_permission_active)
               <li id="customer-list-menu"><a href="{{route('customer.index')}}">{{trans('file.Customer List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'customers-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -368,7 +377,7 @@
               <li id="customer-create-menu"><a href="{{route('customer.create')}}">{{trans('file.Add Customer')}}</a></li>
               @endif
               @endif
-              <?php 
+              <?php
                 $index_permission = DB::table('permissions')->where('name', 'billers-index')->first();
                 $index_permission_active = DB::table('role_has_permissions')->where([
                         ['permission_id', $index_permission->id],
@@ -377,7 +386,7 @@
               ?>
               @if($index_permission_active)
               <li id="biller-list-menu"><a href="{{route('biller.index')}}">{{trans('file.Biller List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'billers-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -388,7 +397,7 @@
               <li id="biller-create-menu"><a href="{{route('biller.create')}}">{{trans('file.Add Biller')}}</a></li>
               @endif
               @endif
-              <?php 
+              <?php
                 $index_permission = DB::table('permissions')->where('name', 'suppliers-index')->first();
                 $index_permission_active = DB::table('role_has_permissions')->where([
                         ['permission_id', $index_permission->id],
@@ -397,7 +406,7 @@
               ?>
               @if($index_permission_active)
               <li id="supplier-list-menu"><a href="{{route('supplier.index')}}">{{trans('file.Supplier List')}}</a></li>
-              <?php 
+              <?php
                 $add_permission = DB::table('permissions')->where('name', 'suppliers-add')->first();
                 $add_permission_active = DB::table('role_has_permissions')->where([
                     ['permission_id', $add_permission->id],
@@ -491,7 +500,7 @@
               $supplier_report_active = DB::table('permissions')
                     ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
                     ->where([
-                      ['permissions.name', 'supplier-report'], 
+                      ['permissions.name', 'supplier-report'],
                       ['role_id', $role->id] ])->first();
               $due_report_active = DB::table('permissions')
                     ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
@@ -801,7 +810,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             @if($lims_pos_setting_data)
                                             <input type="hidden" name="customer_id_hidden" value="{{$lims_pos_setting_data->customer_id}}">
@@ -811,13 +820,13 @@
                                                 <select required name="customer_id" id="customer_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select customer..." style="width: 100px">
                                                 <?php
                                                   $deposit = [];
-                                                  $points = []; 
+                                                  $points = [];
                                                 ?>
                                                 @foreach($lims_customer_list as $customer)
-                                                    @php 
+                                                    @php
                                                       $deposit[$customer->id] = $customer->deposit - $customer->expense;
 
-                                                      $points[$customer->id] = $customer->points; 
+                                                      $points[$customer->id] = $customer->points;
                                                     @endphp
                                                     <option value="{{$customer->id}}">{{$customer->name . ' (' . $customer->phone_number . ')'}}</option>
                                                 @endforeach
@@ -826,14 +835,14 @@
                                                 @else
                                                 <?php
                                                   $deposit = [];
-                                                  $points = []; 
+                                                  $points = [];
                                                 ?>
                                                 <select required name="customer_id" id="customer_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select customer...">
                                                 @foreach($lims_customer_list as $customer)
-                                                    @php 
+                                                    @php
                                                       $deposit[$customer->id] = $customer->deposit - $customer->expense;
 
-                                                      $points[$customer->id] = $customer->points; 
+                                                      $points[$customer->id] = $customer->points;
                                                     @endphp
                                                     <option value="{{$customer->id}}">{{$customer->name . ' (' . $customer->phone_number . ')'}}</option>
                                                 @endforeach
@@ -842,6 +851,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($period_invoice_data != null)
+                                     <input type="hidden" name="correlative" value="{{ $correlative }}">
+                                    <div class="col-md-3">
+                                        <input class="form-control" id="start" name="start" type="text" value="{{$period_invoice_data->rank_start}}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" id="end" name="end" type="text" value="{{$period_invoice_data->rank_end}}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" id="deadline" name="deadline" type="text" value="{{\Carbon\Carbon::parse($period_invoice_data->deadline)->format('Y-m-d') }}" readonly>
+                                    </div>
+                                    @endif
                                     <div class="col-md-12">
                                         <div class="search-box form-group">
                                             <input type="text" name="product_code_name" id="lims_productcodeSearch" placeholder="Scan/Search product by name/code" class="form-control"  />
@@ -930,7 +951,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="payment-amount">
                         <h2>{{trans('file.grand total')}} <span id="grand-total">0.00</span></h2>
@@ -1132,7 +1153,7 @@
                     </div>
                 </div>
             </div>
-            
+
             {!! Form::close() !!}
             <!-- product list -->
             <div class="col-md-6">
@@ -1143,10 +1164,10 @@
                         <div class="navbar-holder d-flex align-items-center justify-content-between">
                           <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-bars"> </i></a>
                           <div class="navbar-header">
-                          
+
                           <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                            <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip" title="Full Screen"><i class="dripicons-expand"></i></a></li> 
-                            <?php 
+                            <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip" title="Full Screen"><i class="dripicons-expand"></i></a></li>
+                            <?php
                                 $general_setting_permission = DB::table('permissions')->where('name', 'general_setting')->first();
                                 $general_setting_permission_active = DB::table('role_has_permissions')->where([
                                             ['permission_id', $general_setting_permission->id],
@@ -1211,25 +1232,25 @@
                                   </ul>
                             </li>
                             @endif
-                            <li class="nav-item"> 
+                            <li class="nav-item">
                                 <a class="dropdown-item" data-toggle="tooltip" title="{{trans('file.Help')}}" href="{{ url('read_me') }}" target="_blank"><i class="dripicons-information"></i></a>
                             </li>&nbsp;
                             <li class="nav-item">
                                   <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-item"><i class="dripicons-user"></i> <span>{{ucfirst(Auth::user()->name)}}</span> <i class="fa fa-angle-down"></i>
                                   </a>
                                   <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
-                                      <li> 
+                                      <li>
                                         <a href="{{route('user.profile', ['id' => Auth::id()])}}"><i class="dripicons-user"></i> {{trans('file.profile')}}</a>
                                       </li>
                                       @if($general_setting_permission_active)
-                                      <li> 
+                                      <li>
                                         <a href="{{route('setting.general')}}"><i class="dripicons-gear"></i> {{trans('file.settings')}}</a>
                                       </li>
                                       @endif
-                                      <li> 
+                                      <li>
                                         <a href="{{url('my-transactions/'.date('Y').'/'.date('m'))}}"><i class="dripicons-swap"></i> {{trans('file.My Transaction')}}</a>
                                       </li>
-                                      <li> 
+                                      <li>
                                         <a href="{{url('holidays/my-holiday/'.date('Y').'/'.date('m'))}}"><i class="dripicons-vibrate"></i> {{trans('file.My Holiday')}}</a>
                                       </li>
                                       <li>
@@ -1243,7 +1264,7 @@
                                         </form>
                                       </li>
                                   </ul>
-                            </li> 
+                            </li>
                           </ul>
                         </div>
                       </div>
@@ -1454,7 +1475,7 @@
                             <input type="text" name="city" required class="form-control">
                         </div>
                         <div class="form-group">
-                        <input type="hidden" name="pos" value="1">      
+                        <input type="hidden" name="pos" value="1">
                           <input type="submit" value="{{trans('file.submit')}}" class="btn btn-primary">
                         </div>
                     </div>
@@ -1868,7 +1889,7 @@ $("#reference-no").val(getSavedValue("reference-no"));
 $("#order-discount").val(getSavedValue("order-discount"));
 $("#order-tax-rate-select").val(getSavedValue("order-tax-rate-select"));
 
-    
+
 $("#shipping-cost-val").val(getSavedValue("shipping-cost-val"));
 
 if(localStorage.getItem("tbody-id")) {
@@ -1880,10 +1901,10 @@ function saveValue(e) {
     var val = e.value; // get the value.
     localStorage.setItem(id, val);// Every time user writing something, the localStorage's value will override.
 }
-//get the saved value function - return the value of "v" from localStorage. 
+//get the saved value function - return the value of "v" from localStorage.
 function getSavedValue  (v) {
     if (!localStorage.getItem(v)) {
-        return "";// You can change this to your defualt value. 
+        return "";// You can change this to your defualt value.
     }
     return localStorage.getItem(v);
 }
@@ -1999,7 +2020,7 @@ if(keyboard_active==1){
         },
         change: function(e, keyboard) {
                 keyboard.$el.val(keyboard.$preview.val())
-                keyboard.$el.trigger('propertychange')        
+                keyboard.$el.trigger('propertychange')
               }
     });
 
@@ -2024,7 +2045,7 @@ if(keyboard_active==1){
         },
         change: function(e, keyboard) {
                 keyboard.$el.val(keyboard.$preview.val())
-                keyboard.$el.trigger('propertychange')        
+                keyboard.$el.trigger('propertychange')
               }
     });
 
@@ -2501,7 +2522,7 @@ $("table.order-list tbody").on("click", ".ibtnDel", function(event) {
     localStorageTempUnitName.splice(rowindex, 1);
     localStorageSaleUnitOperator.splice(rowindex, 1);
     localStorageSaleUnitOperationValue.splice(rowindex, 1);
-    
+
     localStorage.setItem("localStorageProductId", localStorageProductId);
     localStorage.setItem("localStorageQty", localStorageQty);
     localStorage.setItem("localStorageSaleUnit", localStorageSaleUnit);
@@ -2541,7 +2562,11 @@ $('button[name="update_btn"]').on("click", function() {
     }*/
 
     if (parseFloat(edit_discount) > 99) {
-        alert('¡Porcentaje de descuento invalido!');
+        alert('¡El porcentaje de descuento debe ser menor que 99!');
+        return;
+    }
+    if(parseFloat(edit_discount) < 1) {
+        alert('El porcentaje de descuento debe ser mayor que 1');
         return;
     }
 
@@ -2550,7 +2575,7 @@ $('button[name="update_btn"]').on("click", function() {
         edit_qty = 1;
         alert("Quantity can't be less than 1");
     }
-    
+
     var tax_rate_all = <?php echo json_encode($tax_rate_all) ?>;
 
     tax_rate[rowindex] = localStorageTaxRate[rowindex] = parseFloat(tax_rate_all[$('select[name="edit_tax_rate"]').val()]);
@@ -2686,7 +2711,7 @@ $("#point-btn").on("click",function() {
     pointCalculation();
 });
 
-$('select[name="paid_by_id_select"]').on("change", function() {       
+$('select[name="paid_by_id_select"]').on("change", function() {
     var id = $(this).val();
     $(".payment-form").off("submit");
     if(id == 2) {
@@ -2866,7 +2891,7 @@ function addNewProduct(data){
         $("table.order-list tbody").prepend(newRow);
 
     rowindex = newRow.index();
-    
+
     if(!data[11] && product_warehouse_price[pos]) {
         product_price.splice(rowindex, 0, parseFloat(product_warehouse_price[pos] * currency['exchange_rate']) + parseFloat(product_warehouse_price[pos] * currency['exchange_rate'] * customer_group_rate));
     }
@@ -2898,7 +2923,7 @@ function addNewProduct(data){
     localStorageTaxValue.splice(rowindex, 0, '0.00');
     localStorageSubTotalUnit.splice(rowindex, 0, '0.00');
     localStorageSubTotal.splice(rowindex, 0, '0.00');
-    
+
     localStorage.setItem("localStorageProductId", localStorageProductId);
     localStorage.setItem("localStorageSaleUnit", localStorageSaleUnit);
     localStorage.setItem("localStorageProductCode", localStorageProductCode);
@@ -2918,7 +2943,12 @@ function edit(){
     var qty = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val();
     $('input[name="edit_qty"]').val(qty);
 
-    //$('input[name="edit_discount"]').val(parseFloat(product_discount[rowindex]).toFixed(2));
+    var porcen = (product_discount[rowindex] * 100)/product_price[rowindex]
+    if(porcen == 0){
+        $('input[name="edit_discount"]').val('');
+    }else{
+        $('input[name="edit_discount"]').val(parseFloat(porcen));
+    }
 
     var tax_name_all = <?php echo json_encode($tax_name_all) ?>;
     pos = tax_name_all.indexOf(tax_name[rowindex]);
@@ -3081,12 +3111,12 @@ function calculateRowProductData(quantity) {
         var net_unit_price = row_product_price - product_discount[rowindex];
         var tax = net_unit_price * quantity * (tax_rate[rowindex] / 100);
         var sub_total = (net_unit_price * quantity) + tax;
-        
+
         if(parseFloat(quantity))
             var sub_total_unit = sub_total / quantity;
         else
             var sub_total_unit = sub_total;
-    } 
+    }
     else {
         var sub_total_unit = row_product_price - product_discount[rowindex];
         var net_unit_price = (100 / (100 + tax_rate[rowindex])) * sub_total_unit;
@@ -3290,6 +3320,31 @@ function confirmCancel() {
 }
 
 $(document).on('submit', '.payment-form', function(e) {
+
+    const deadline = String($('input[name="deadline"]').val());
+    const deadline_a = new Date(deadline);
+    const today = new Date()
+    deadline_a.setDate(deadline_a.getDate() + 1)
+
+    const start = $('input[name="start"]').val();
+    const end = $('input[name="end"]').val();
+    const correlative = $('input[name="correlative"]').val();
+
+    if (correlative < start ) {
+        alert('El correlativo de la factura es menor al inicio del rango del periodo de facturación.');
+        e.preventDefault();
+    }
+
+      if (correlative > end ) {
+        alert('El correlativo de la factura es mayor al fin del rango del periodo de facturación.');
+        e.preventDefault();
+    }
+
+    if (today > deadline_a) {
+        alert('Periodo de facturación vencido, fecha limite de emisión superada');
+        e.preventDefault();
+    }
+
     var rownumber = $('table.order-list tbody tr:last').index();
     if (rownumber < 0) {
         alert("Please insert product to order table!")
@@ -3302,6 +3357,39 @@ $(document).on('submit', '.payment-form', function(e) {
     $('input[name="paid_by_id"]').val($('select[name="paid_by_id_select"]').val());
     $('input[name="order_tax_rate"]').val($('select[name="order_tax_rate_select"]').val());
 
+});
+
+$(document).ready(function() {
+    const deadline = String($('input[name="deadline"]').val());
+    const deadline_a = new Date(deadline);
+    const today = new Date();
+    deadline_a.setDate(deadline_a.getDate() - 6);
+
+    const start = $('input[name="start"]').val();
+    const end_cien = $('input[name="end"]').val() -100;
+    const end_cincuenta = $('input[name="end"]').val() -50;
+    const correlative = $('input[name="correlative"]').val();
+
+    if (correlative >= start ) {
+        $( "input#start" ).addClass( "is-valid" );
+    }else{
+        $( "input#start" ).addClass( "is-invalid" );
+         $( "#start_warning" ).removeClass( "hidden" );
+    }
+
+    if (correlative <= end_cien ) {
+        $( "input#end" ).addClass( "is-valid" );
+    }else{
+        $( "input#end" ).addClass( "is-warning" );
+        $( "#end_warning" ).removeClass( "hidden" );
+    }
+
+    if (today > deadline_a) {
+        $( "input#deadline" ).addClass( "is-invalid" );
+        $( "#deadline_warning" ).removeClass( "hidden" );
+    }else{
+        $( "input#deadline" ).addClass( "is-valid" );
+    }
 });
 
 $('#product-table').DataTable( {

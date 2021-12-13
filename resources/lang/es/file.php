@@ -518,7 +518,7 @@ return [
 	"Type Product Name or Code..." => "Escriba el nombre o código del producto ...",
 	"Type date or sale reference..." => "Escriba la fecha o referencia de venta ...",
 	"Type date or purchase reference..." => "Escriba la fecha o la referencia de compra ...",
-	"Tax Number" => "Número de impuesto",
+	"Tax Number" => "RTN Cliente",
 	"Holiday" => "Vacaciones",
 	"Add Holiday" => "Agregar vacaciones",
 	"Update Holiday" => "Actualizar vacaciones",
@@ -617,7 +617,9 @@ return [
     "CAI" => "CAI",
     "Inactive" => "Inactivo",
     "This product has batch and expired date" => "Este producto tiene una fecha de elaboración y vencimiento.",
-    "product exceeds alert quantity"=>"baja cantidad de este producto"
+    "product exceeds alert quantity"=>"baja cantidad de este producto",
+    "tax_avb"=>"ISV.",
+    "descuento_avb"=>"Desc.",
 
 
 ];

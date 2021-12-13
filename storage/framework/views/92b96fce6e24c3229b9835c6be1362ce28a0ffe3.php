@@ -1081,4 +1081,5 @@
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/salepro/resources/views/sale/index.blade.php ENDPATH**/ ?>

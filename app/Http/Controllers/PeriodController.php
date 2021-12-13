@@ -58,7 +58,11 @@ class PeriodController extends Controller
             'document_type' => 'size:2',
         ]);
 
+
         $data = $request->all();
+         if ($data['status'] == 1) {
+          Period::where('status', '=' ,1)->get()->first()->update(['status'=> 0]);
+        }
         Period::create($data);
         return redirect()->back()->with('message', 'Period created successfully');
     }
@@ -97,7 +101,7 @@ class PeriodController extends Controller
          $todayDate = date('m/d/Y');
 
       $this->validate($request, [
-            'cai' => 'size:37|unique:periods',
+            'cai' => 'size:37',
             'rank_start' => 'size:8',
             'rank_end' => 'size:8',
             'deadline' => 'after:'.$todayDate,
@@ -106,7 +110,14 @@ class PeriodController extends Controller
             'document_type' => 'size:2',
         ]);
 
+
+
         $data = $request->all();
+
+        if ($data['status'] == 1) {
+          Period::where('status', '=' ,1)->get()->first()->update(['status'=> 0]);
+        }
+
         Period::find($data['period_id'])->update($data);
         return redirect()->back()->with('message', 'Period updated successfully');
     }

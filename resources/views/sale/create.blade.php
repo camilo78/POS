@@ -2,6 +2,17 @@
 @if(session()->has('not_permitted'))
   <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div> 
 @endif
+@if($period_invoice_data != null)
+<div class=" alert-danger hidden p-2 justify-content-center d-flex" id="deadline_warning" role="alert">
+  ¡Faltan {{  Carbon\Carbon::now()->diffInDays($period_invoice_data->deadline)}} día para que se venza el período de facturación, comuniquese con el gestor(a)!
+</div>
+<div class=" alert-warning hidden p-2 justify-content-center d-flex" id="end_warning" role="alert">
+  ¡Faltan {{  $period_invoice_data->rank_end - $correlative }} facturas para que se termine el rango autorizado para el período de facturación, comuniquese con el gestor(a)!
+</div>
+<div class=" alert-warning hidden p-2 justify-content-center d-flex" id="start_warning" role="alert">
+  ¡El correlativo de la factura no se encuentra en el rango autorizado del período de facturación, comuniquese con el gestor(a)!
+</div>
+@endif
 <section class="forms">
     <div class="container-fluid">
         <div class="row">
@@ -22,7 +33,8 @@
                                                 {{trans('file.Invoice')}}
                                             </label>
                                             @if($period_invoice_data != null)
-                                            <input type="text" name="reference_no" value='{{ $period_invoice_data->emission_point.'-'.$period_invoice_data->agency.'-'.$period_invoice_data->document_type.'-'.$correlative }}' class="form-control" readonly/>
+                                            <input type="text" name="reference_no" value='{{ $period_invoice_data->emission_point.'-'.$period_invoice_data->agency.'-'.$period_invoice_data->document_type.'-'.$correlative }}' class="form-control" readonly >
+                                            <input type="hidden" name="period_id" value="{{ $period_id }}">
                                             @endif
                                         </div>
                                         @if($errors->has('reference_no'))
@@ -70,6 +82,21 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if($period_invoice_data != null)
+                                    <input type="hidden" name="correlative" value="{{ $correlative }}">
+                                    <div class="col-md-2">
+                                        <label>Inicio facturación</label>
+                                        <input class="form-control" id="start" name="start" type="text" value="{{$period_invoice_data->rank_start}}" readonly>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Fin facturación</label>
+                                        <input class="form-control" id="end" name="end" type="text" value="{{$period_invoice_data->rank_end}}" readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Limite emisión</label>
+                                        <input class="form-control" id="deadline" name="deadline" type="text" value="{{\Carbon\Carbon::parse($period_invoice_data->deadline)->format('Y-m-d') }}" readonly>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-12">
@@ -573,8 +600,17 @@ $('button[name="update_btn"]').on("click", function() {
     var edit_qty = $('input[name="edit_qty"]').val();
     var edit_unit_price = $('input[name="edit_unit_price"]').val();
 
-    if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
+ /* if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
         alert('Invalid Discount Input!');
+        return;
+    }*/
+
+    if (parseFloat(edit_discount) > 99) {
+        alert('¡El porcentaje de descuento debe ser menor que 99!');
+        return;
+    }
+    if(parseFloat(edit_discount) < 1) {
+        alert('El porcentaje de descuento debe ser mayor que 1');
         return;
     }
 
@@ -614,7 +650,7 @@ $('button[name="update_btn"]').on("click", function() {
     else {
         product_price[rowindex] = $('input[name="edit_unit_price"]').val();
     }
-    product_discount[rowindex] = $('input[name="edit_discount"]').val();
+    product_discount[rowindex] = $('input[name="edit_discount"]').val()/100 * edit_unit_price; // change to revert
     checkQuantity(edit_qty, false);
 });
 
@@ -737,7 +773,13 @@ function edit()
     var qty = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val();
     $('input[name="edit_qty"]').val(qty);
 
-    $('input[name="edit_discount"]').val(parseFloat(product_discount[rowindex]).toFixed(2));
+    var porcen = (product_discount[rowindex] * 100)/product_price[rowindex]
+     if(porcen == 0){
+        $('input[name="edit_discount"]').val('');
+     }else{
+        $('input[name="edit_discount"]').val(parseFloat(porcen));
+     }
+
 
     var tax_name_all = <?php echo json_encode($tax_name_all) ?>;
     pos = tax_name_all.indexOf(tax_name[rowindex]);
@@ -1089,6 +1131,31 @@ $(window).keydown(function(e){
 });
 
 $(document).on('submit', '.payment-form', function(e) {
+
+    const deadline = String($('input[name="deadline"]').val());
+    const deadline_a = new Date(deadline);
+    const today = new Date()
+    deadline_a.setDate(deadline_a.getDate() + 1)
+
+    const start = $('input[name="start"]').val();
+    const end = $('input[name="end"]').val();
+    const correlative = $('input[name="correlative"]').val();
+
+    if (correlative < start ) {
+        alert('El correlativo de la factura es menor al inicio del rango del periodo de facturación.');
+        e.preventDefault();
+    }
+
+    if (correlative > end ) {
+        alert('El correlativo de la factura es mayor al fin del rango del periodo de facturación.');
+        e.preventDefault();
+    }
+
+    if (today > deadline_a) {
+        alert('Periodo de facturación vencido, fecha limite de emisión superada.');
+        e.preventDefault();
+    }
+
     var rownumber = $('table.order-list tbody tr:last').index();
     if ( rownumber < 0 ) {
         alert("Please insert product to order table!")
@@ -1105,6 +1172,39 @@ $(document).on('submit', '.payment-form', function(e) {
     else {
         $("#paid-amount").prop('disabled',false);
         $(".batch-no").prop('disabled', false);
+    }
+});
+
+$(document).ready(function() {
+    const deadline = String($('input[name="deadline"]').val());
+    const deadline_a = new Date(deadline);
+    const today = new Date();
+    deadline_a.setDate(deadline_a.getDate() - 6);
+
+    const start = $('input[name="start"]').val();
+    const end_cien = $('input[name="end"]').val() -100;
+    const end_cincuenta = $('input[name="end"]').val() -50;
+    const correlative = $('input[name="correlative"]').val();
+
+    if (correlative >= start ) {
+        $( "input#start" ).addClass( "is-valid" );
+    }else{
+        $( "input#start" ).addClass( "is-invalid" );
+         $( "#start_warning" ).removeClass( "hidden" );
+    }
+
+    if (correlative <= end_cien ) {
+        $( "input#end" ).addClass( "is-valid" );
+    }else{
+        $( "input#end" ).addClass( "is-warning" );
+        $( "#end_warning" ).removeClass( "hidden" );
+    }
+
+    if (today > deadline_a) {
+        $( "input#deadline" ).addClass( "is-invalid" );
+        $( "#deadline_warning" ).removeClass( "hidden" );
+    }else{
+        $( "input#deadline" ).addClass( "is-valid" );
     }
 });
 

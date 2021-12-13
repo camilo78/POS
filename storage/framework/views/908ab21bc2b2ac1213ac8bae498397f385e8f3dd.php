@@ -8,15 +8,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+
     <style type="text/css">
         * {
             font-size: 14px;
             line-height: 24px;
-            font-family: 'IBM Plex Mono', monospace;
-            text-transform: uppercase;
+            font-family: 'Ubuntu', sans-serif;
+            text-transform: capitalize;
         }
         .btn {
             padding: 7px 10px;
@@ -45,32 +43,30 @@
             border-collapse: collapse;
         }
         tr {border-bottom: 1px dotted #ddd;}
-         td,td {padding: 7px 0;width: 100%;}
+        td,th {padding: 7px 0;width: 50%;}
 
         table {width: 100%;}
-        tfoot tr td:first-child {text-align: left;}
+        tfoot tr th:first-child {text-align: left;}
 
         .centered {
             text-align: center;
             align-content: center;
         }
-
+        small{font-size:11px;}
 
         @media  print {
             * {
-
+                font-size:12px;
                 line-height: 20px;
             }
-            td,td {padding: 5px 0;}
+            td,th {padding: 5px 0;}
             .hidden-print {
                 display: none !important;
             }
-            @page  { margin: 0.0cm 0.5cm 0.0cm -0.4cm; }
-            @page:first { margin-bottom: 2cm; }
+            @page  { margin: 1.5cm 0.5cm 0.5cm; }
+            @page:first { margin-top: 0.5cm; }
             tbody::after {
                 content: ''; display: block;
-            }
-            body{
                 page-break-after: always;
                 page-break-inside: avoid;
                 page-break-before: avoid;
@@ -80,7 +76,7 @@
   </head>
 <body>
 
-<div style="max-width:400px;margin:0 auto; margin-bottom:100px;">
+<div style="max-width:400px;margin:0 auto">
     <?php if(preg_match('~[0-9]~', url()->previous())): ?>
         <?php $url = '../../pos'; ?>
     <?php else: ?>
@@ -95,62 +91,31 @@
         </table>
         <br>
     </div>
-        
+
     <div id="receipt-data">
         <div class="centered">
             <?php if($general_setting->site_logo): ?>
-                <img src="<?php echo e(url('public/logo', $general_setting->site_logo)); ?>" height="120"  style="margin:10px 0;margin-top: -0px !important;filter: grayscale(100%">
+                <img src="<?php echo e(url('public/logo', $general_setting->site_logo)); ?>" height="42" width="50" style="margin:10px 0;filter: brightness(0);">
             <?php endif; ?>
-            
-            <h1 style="font-size:20px"><?php echo e($lims_biller_data->company_name); ?></h1>
-            <?php if($general_setting->rtn): ?>
-                <h3 style="margin-top:-10px"><?php echo e(trans('file.RTN')); ?>: <?php echo e($general_setting->rtn); ?></h3>
-            <?php endif; ?>
-            <p style="margin-top:-10px"><?php echo e(trans('file.Address')); ?>: <?php echo e($lims_warehouse_data->address); ?>
+
+            <h2><?php echo e($lims_biller_data->company_name); ?></h2>
+
+            <p><?php echo e(trans('file.Address')); ?>: <?php echo e($lims_warehouse_data->address); ?>
 
                 <br><?php echo e(trans('file.Phone Number')); ?>: <?php echo e($lims_warehouse_data->phone); ?>
 
             </p>
         </div>
-        <table>
-            <tbody>
-                <tr style="border:none">
-                <td colspan="2" style="text-align:left"><?php echo e(trans('file.Invoice')); ?> <br> <?php echo e($lims_sale_data->reference_no); ?></td>
-                <td style="text-align:right"><?php echo e(trans('file.Date')); ?> <br> <?php echo e($lims_sale_data->created_at->format('d/m/Y h:s')); ?></td>
-            </tr>
-            </tbody>
-        </table>
-        <p style="text-align: center;">
-            <span>
-                <?php echo e(trans('file.customer')); ?>: <?php echo e($lims_customer_data->name); ?>
+        <p><?php echo e(trans('file.Date')); ?>: <?php echo e($lims_sale_data->created_at); ?><br>
+            <?php echo e(trans('file.reference')); ?>: <?php echo e($lims_sale_data->reference_no); ?><br>
+            <?php echo e(trans('file.customer')); ?>: <?php echo e($lims_customer_data->name); ?>
 
-            </span>
-
-               <?php echo e($lims_customer_data->rtn === '' ? '<br>
-            <span> RTN: ' . $lims_customer_data->rtn .'</span>' : ''); ?>
-
-
-            <br>
-            <span>
-             
-            </span>
         </p>
-        <span >Cajero: <?php echo e($lims_biller_data->name); ?></span>
-        <table>
-                      <tr>
-                    <td colspan="2" style="text-align:left">
-                        DESCRIPCIÓN/CANTIDAD/PRECIO
-                    </td>
-                    <td style="text-align:right">
-                        TOTAL
-                    </td>
-                </tr>
-        </table>
         <table class="table-data">
             <tbody>
                 <?php $total_product_tax = 0;?>
                 <?php $__currentLoopData = $lims_product_sale_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $product_sale_data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php 
+                <?php
                     $lims_product_data = \App\Product::find($product_sale_data->product_id);
                     if($product_sale_data->variant_id) {
                         $variant_data = \App\Variant::find($product_sale_data->variant_id);
@@ -178,106 +143,94 @@
                     <td style="text-align:right;vertical-align:bottom"><?php echo e(number_format((float)$product_sale_data->total, 2, '.', '')); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            
+
             <!-- <tfoot> -->
                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Total')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->total_price, 2, '.', '')); ?></td>
+                    <th colspan="2" style="text-align:left"><?php echo e(trans('file.Total')); ?></th>
+                    <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->total_price, 2, '.', '')); ?></th>
                 </tr>
                 <?php if($general_setting->invoice_format == 'gst' && $general_setting->state == 1): ?>
                 <tr>
                     <td colspan="2">IGST</td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$total_product_tax, 2, '.', '')); ?></td>
+                    <td style="text-align:right"><?php echo e(number_format((float)$total_product_tax, 2, '.', '')); ?></td>
                 </tr>
                 <?php elseif($general_setting->invoice_format == 'gst' && $general_setting->state == 2): ?>
                 <tr>
                     <td colspan="2">SGST</td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)($total_product_tax / 2), 2, '.', '')); ?></td>
+                    <td style="text-align:right"><?php echo e(number_format((float)($total_product_tax / 2), 2, '.', '')); ?></td>
                 </tr>
                 <tr>
                     <td colspan="2">CGST</td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)($total_product_tax / 2), 2, '.', '')); ?></td>
+                    <td style="text-align:right"><?php echo e(number_format((float)($total_product_tax / 2), 2, '.', '')); ?></td>
                 </tr>
                 <?php endif; ?>
                 <?php if($lims_sale_data->order_tax): ?>
                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Order Tax')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->order_tax, 2, '.', '')); ?></td>
+                    <th colspan="2" style="text-align:left"><?php echo e(trans('file.Order Tax')); ?></th>
+                    <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->order_tax, 2, '.', '')); ?></th>
                 </tr>
                 <?php endif; ?>
                 <?php if($lims_sale_data->order_discount): ?>
                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Order Discount')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->order_discount, 2, '.', '')); ?></td>
+                    <th colspan="2" style="text-align:left"><?php echo e(trans('file.Order Discount')); ?></th>
+                    <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->order_discount, 2, '.', '')); ?></th>
                 </tr>
                 <?php endif; ?>
                 <?php if($lims_sale_data->coupon_discount): ?>
                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Coupon Discount')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->coupon_discount, 2, '.', '')); ?></td>
+                    <th colspan="2" style="text-align:left"><?php echo e(trans('file.Coupon Discount')); ?></th>
+                    <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->coupon_discount, 2, '.', '')); ?></th>
                 </tr>
                 <?php endif; ?>
                 <?php if($lims_sale_data->shipping_cost): ?>
                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Shipping Cost')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->shipping_cost, 2, '.', '')); ?></td>
+                    <th colspan="2" style="text-align:left"><?php echo e(trans('file.Shipping Cost')); ?></th>
+                    <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->shipping_cost, 2, '.', '')); ?></th>
                 </tr>
                 <?php endif; ?>
                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.grand total')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->grand_total, 2, '.', '')); ?></td>
+                    <th colspan="2" style="text-align:left"><?php echo e(trans('file.grand total')); ?></th>
+                    <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->grand_total, 2, '.', '')); ?></th>
                 </tr>
-                <?php if($balance != 0): ?>
-                <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Abono')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e(number_format((float)$lims_sale_data->paid_amount, 2, '.', '')); ?></td>
-                </tr>
-                 <tr>
-                    <td colspan="2" style="text-align:right"><?php echo e(trans('file.Balance')); ?></td>
-                    <td style="text-align:right"><?php echo e($currency->code); ?> <?php echo e($balance); ?></td>
-                </tr>
-                <?php endif; ?>
                 <tr>
                     <?php if($general_setting->currency_position == 'prefix'): ?>
-                    <td class="centered" colspan="3"><?php echo e(trans('file.In Words')); ?>: <span><?php echo e(str_replace("-"," ",$numberInWords)); ?> con <?php echo e(substr(number_format((float)$lims_sale_data->paid_amount, 2, '.', ''),-2)); ?>/100</span></td>
+                    <th class="centered" colspan="3"><?php echo e(trans('file.In Words')); ?>: <span><?php echo e($currency->code); ?></span> <span><?php echo e(str_replace("-"," ",$numberInWords)); ?></span></th>
                     <?php else: ?>
-                    <td class="centered" colspan="3"><?php echo e(trans('file.In Words')); ?>: <span><?php echo e(str_replace("-"," ",$numberInWords)); ?></span> <span><?php echo e($currency->code); ?></span></td>
+                    <th class="centered" colspan="3"><?php echo e(trans('file.In Words')); ?>: <span><?php echo e(str_replace("-"," ",$numberInWords)); ?></span> <span><?php echo e($currency->code); ?></span></th>
                     <?php endif; ?>
                 </tr>
             </tbody>
             <!-- </tfoot> -->
         </table>
-        <table style="margin-bottom: 2cm;">
+        <table>
             <tbody>
                 <?php $__currentLoopData = $lims_payment_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment_data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                     <td colspan="2" class="centered foot"><?php echo e(trans('file.Paid By')); ?>: <?php echo e(trans('file.'. $payment_data->paying_method)); ?></td>
-                </tr>
                 <tr style="background-color:#ddd;">
-
+                    <td style="padding: 5px;width:30%"><?php echo e(trans('file.Paid By')); ?>: <?php echo e($payment_data->paying_method); ?></td>
                     <td style="padding: 5px;width:40%"><?php echo e(trans('file.Amount')); ?>: <?php echo e(number_format((float)$payment_data->amount, 2, '.', '')); ?></td>
                     <td style="padding: 5px;width:30%"><?php echo e(trans('file.Change')); ?>: <?php echo e(number_format((float)$payment_data->change, 2, '.', '')); ?></td>
-                </tr>                
+                </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php if($lims_sale_data->sale_note): ?>
-            <tr><td class="centered small" colspan="2"><?php echo e($lims_sale_data->sale_note); ?></td></tr>
-            <?php endif; ?>
-            <?php if($lims_sale_data->staff_note): ?>
-            <tr><td class="centered small" colspan="2"><?php echo e($lims_sale_data->staff_note); ?></td></tr>
-            <?php endif; ?>
-                <tr><td class="centered foot" style="font-size:11px" colspan="3">CAI: <br> <?php echo e($lims_sale_data->period->cai); ?></td></tr>
-                <tr><td class="centered foot" colspan="3">RANGO AUTORIZADO: <br> <?php echo e($lims_sale_data->period->emission_point); ?>-<?php echo e($lims_sale_data->period->agency); ?>-<?php echo e($lims_sale_data->period->document_type); ?>-<?php echo e($lims_sale_data->period->rank_start); ?>/<?php echo e($lims_sale_data->period->rank_end); ?></td></tr>
-                <tr><td class="centered foot" colspan="3">FECHA LIMITE DE EMISIÓN: <br> <?php echo e($lims_sale_data->period->deadline); ?></td></tr>
-                <tr><td class="centered small" style="font-style: italic;" colspan="2"><?php echo e(trans('file.Thank you for shopping with us. Please come again')); ?></td></tr>
-
+                <tr><td class="centered" colspan="3"><?php echo e(trans('file.Thank you for shopping with us. Please come again')); ?></td></tr>
+                <tr>
+                    <td class="centered" colspan="3">
+                    <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS1D::getBarcodePNG($lims_sale_data->reference_no, 'C128') . '" width="300" alt="barcode"   />';?>
+                    <br>
+                    <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS2D::getBarcodePNG($lims_sale_data->reference_no, 'QRCODE') . '" alt="barcode"   />';?>
+                    </td>
+                </tr>
             </tbody>
         </table>
+        <!-- <div class="centered" style="margin:30px 0 50px">
+            <small><?php echo e(trans('file.Invoice Generated By')); ?> <?php echo e($general_setting->site_title); ?>.
+            <?php echo e(trans('file.Developed By')); ?> LionCoders</strong></small>
+        </div> -->
     </div>
 </div>
 
 <script type="text/javascript">
     localStorage.clear();
-    function auto_print() {     
+    function auto_print() {
         window.print()
     }
     setTimeout(auto_print, 1000);

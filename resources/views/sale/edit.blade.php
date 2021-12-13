@@ -655,15 +655,18 @@ $('button[name="update_btn"]').on("click", function() {
     var edit_qty = $('input[name="edit_qty"]').val();
     var edit_unit_price = $('input[name="edit_unit_price"]').val();
 
-    if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
+    /* if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
         alert('Invalid Discount Input!');
         return;
-    }
+    }*/
 
-    if(edit_qty < 1) {
-        $('input[name="edit_qty"]').val(1);
-        edit_qty = 1;
-        alert("Quantity can't be less than 1");
+    if (parseFloat(edit_discount) > 99) {
+        alert('¡El porcentaje de descuento debe ser menor que 99!');
+        return;
+    }
+    if(parseFloat(edit_discount) < 1) {
+        alert('El porcentaje de descuento debe ser mayor que 1');
+        return;
     }
 
     var tax_rate_all = <?php echo json_encode($tax_rate_all) ?>;
@@ -696,7 +699,7 @@ $('button[name="update_btn"]').on("click", function() {
     else {
         product_price[rowindex] = $('input[name="edit_unit_price"]').val();
     }
-    product_discount[rowindex] = $('input[name="edit_discount"]').val();
+    product_discount[rowindex] = $('input[name="edit_discount"]').val()/100 * edit_unit_price; // change to revert
     checkQuantity(edit_qty, false);
 });
 
@@ -819,7 +822,12 @@ function edit(){
     var qty = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val();
     $('input[name="edit_qty"]').val(qty);
 
-    $('input[name="edit_discount"]').val(parseFloat(product_discount[rowindex]).toFixed(2));
+    var porcen = (product_discount[rowindex] * 100)/product_price[rowindex]
+    if(porcen == 0){
+        $('input[name="edit_discount"]').val('');
+    }else{
+        $('input[name="edit_discount"]').val(parseFloat(porcen));
+    }
 
     var tax_name_all = <?php echo json_encode($tax_name_all) ?>;
     pos = tax_name_all.indexOf(tax_name[rowindex]);
