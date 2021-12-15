@@ -240,7 +240,7 @@ return [
 	"Showing" => "Mostrando",
     "entries" => "registros",
 	"Next" => "Siguiente",
-	"Order Discount" => "orden de descuento",
+	"Order Discount" => "Orden de descuento",
 	"Order Tax" => "Impuesto de pedidos",
 	"Sale Note" => "Nota de venta",
 	"Staff Note" => "Nota del personal",

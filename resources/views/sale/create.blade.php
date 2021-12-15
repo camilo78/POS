@@ -1,4 +1,5 @@
 @extends('layout.main') @section('content')
+
 @if(session()->has('not_permitted'))
   <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div> 
 @endif
@@ -1212,7 +1213,12 @@ $("ul#sale").siblings('a').attr('aria-expanded','true');
 $("ul#sale").addClass("show");
 $("ul#sale li").eq(2).addClass("active");
 </script>
-@endsection @section('scripts')
+@endsection
+@section('styles')
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+@endsection
+@section('scripts')
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 
 @endsection

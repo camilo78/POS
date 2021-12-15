@@ -149,10 +149,7 @@
                                 <?php $total_product_tax += $product_sale_data->tax ?>
                                 [{{trans('file.tax_avb')}} {{$product_sale_data->tax_rate}}%: {{number_format((float)($product_sale_data->tax), 2, '.', '')}}]
                                 @endif
-                                @if($product_sale_data->tax_rate == 0)
-                                <?php $total_exo += $lims_product_data->price * $product_sale_data->qty?>
-                                [Exonerado]
-                                @endif
+
                                 @if($product_sale_data->discount)
                                 [{{trans('file.descuento_avb')}}
                                 {{(($product_sale_data->discount/$product_sale_data->qty) * 100)/$lims_product_data->price}}%

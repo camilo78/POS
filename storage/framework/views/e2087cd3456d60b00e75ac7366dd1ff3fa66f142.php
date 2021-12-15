@@ -29,6 +29,7 @@
                     <th class="not-exported"></th>
                     <th><?php echo e(trans('file.Image')); ?></th>
                     <th><?php echo e(trans('file.name')); ?></th>
+                    <th>Ingred. Activo</th>
                     <th><?php echo e(trans('file.Code')); ?></th>
                     <th><?php echo e(trans('file.Brand')); ?></th>
                     <th><?php echo e(trans('file.category')); ?></th>
@@ -332,6 +333,7 @@
                 {"data": "key"},
                 {"data": "image"},
                 {"data": "name"},
+                {"data": "ingrediente"},
                 {"data": "code"},
                 {"data": "brand"},
                 {"data": "category"},
@@ -481,4 +483,5 @@
 
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/salepro/resources/views/product/index.blade.php ENDPATH**/ ?>

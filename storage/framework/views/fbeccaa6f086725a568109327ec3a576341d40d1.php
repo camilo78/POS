@@ -1,4 +1,5 @@
  <?php $__env->startSection('content'); ?>
+
 <?php if(session()->has('not_permitted')): ?>
   <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><?php echo e(session()->get('not_permitted')); ?></div> 
 <?php endif; ?>
@@ -394,6 +395,10 @@
                                     <option value="<?php echo e($key); ?>"><?php echo e($name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Exonerado</label> <br>
+                                <input type="checkbox" checked data-toggle="toggle" data-on="Hello<br>World" data-off=" " disabled>
                             </div>
                             <div id="edit_unit" class="form-group">
                                 <label><?php echo e(trans('file.Product Unit')); ?></label>
@@ -1217,7 +1222,12 @@ $("ul#sale").siblings('a').attr('aria-expanded','true');
 $("ul#sale").addClass("show");
 $("ul#sale li").eq(2).addClass("active");
 </script>
-<?php $__env->stopSection(); ?> <?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('styles'); ?>
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 
 <?php $__env->stopSection(); ?>

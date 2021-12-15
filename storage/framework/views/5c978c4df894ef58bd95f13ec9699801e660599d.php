@@ -153,10 +153,7 @@
                                 <?php $total_product_tax += $product_sale_data->tax ?>
                                 [<?php echo e(trans('file.tax_avb')); ?> <?php echo e($product_sale_data->tax_rate); ?>%: <?php echo e(number_format((float)($product_sale_data->tax), 2, '.', '')); ?>]
                                 <?php endif; ?>
-                                <?php if($product_sale_data->tax_rate == 0): ?>
-                                <?php $total_exo += $lims_product_data->price * $product_sale_data->qty?>
-                                [Exonerado]
-                                <?php endif; ?>
+
                                 <?php if($product_sale_data->discount): ?>
                                 [<?php echo e(trans('file.descuento_avb')); ?>
 

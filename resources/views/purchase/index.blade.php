@@ -113,13 +113,13 @@
             <table class="table table-bordered product-purchase-list">
                 <thead>
                     <th>#</th>
-                    <th>{{trans('file.product')}}</th>
-                    <th>{{trans('file.Batch No')}}</th>
-                    <th>Qty</th>
-                    <th>{{trans('file.Unit Cost')}}</th>
-                    <th>{{trans('file.Tax')}}</th>
-                    <th>{{trans('file.Discount')}}</th>
-                    <th>{{trans('file.Subtotal')}}</th>
+                    <th width="30%">{{trans('file.product')}}</th>
+                    <th width="10%">{{trans('file.Batch No')}}</th>
+                    <th width="10%">Qty</th>
+                    <th width="10%">{{trans('file.Unit Cost')}}</th>
+                    <th width="10%">{{trans('file.Tax')}}</th>
+                    <th width="10%">{{trans('file.Discount')}}</th>
+                    <th width="20%">{{trans('file.Subtotal')}}</th>
                 </thead>
                 <tbody>
                 </tbody>
@@ -290,6 +290,9 @@
 </div>
 
 <script type="text/javascript">
+    function numberWithCommas(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
     $(".daterangepicker-field").daterangepicker({
       callback: function(startDate, endDate, period){
@@ -700,14 +703,14 @@
             $.each(name_code, function(index) {
                 var newRow = $("<tr>");
                 var cols = '';
-                cols += '<td><strong>' + (index+1) + '</strong></td>';
+                cols += '<td align="right"><strong>' + (index+1) + '</strong></td>';
                 cols += '<td>' + name_code[index] + '</td>';
                 cols += '<td>' + batch_no[index] + '</td>';
                 cols += '<td>' + qty[index] + ' ' + unit_code[index] + '</td>';
-                cols += '<td>' + (subtotal[index] / qty[index]) + '</td>';
-                cols += '<td>' + tax[index] + '(' + tax_rate[index] + '%)' + '</td>';
-                cols += '<td>' + discount[index] + '</td>';
-                cols += '<td>' + subtotal[index] + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat((subtotal[index] / qty[index])).toFixed(2)) + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat(tax[index]).toFixed(2)) + '(' + tax_rate[index] + '%)' + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat(discount[index]).toFixed(2)) + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat(subtotal[index]).toFixed(2)) + '</td>';
                 newRow.append(cols);
                 newBody.append(newRow);
             });
@@ -715,51 +718,51 @@
             var newRow = $("<tr>");
             cols = '';
             cols += '<td colspan=5><strong>{{trans("file.Total")}}:</strong></td>';
-            cols += '<td>' + purchase[13] + '</td>';
-            cols += '<td>' + purchase[14] + '</td>';
-            cols += '<td>' + purchase[15] + '</td>';
+            cols += '<td align="right">' + numberWithCommas(parseFloat(purchase[13]).toFixed(2)) + '</td>';
+            cols += '<td align="right">' + numberWithCommas(parseFloat(purchase[14]).toFixed(2)) + '</td>';
+            cols += '<td align="right"> ' + numberWithCommas(parseFloat(purchase[15]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
-            cols += '<td colspan=7><strong>{{trans("file.Order Tax")}}:</strong></td>';
-            cols += '<td>' + purchase[16] + '(' + purchase[17] + '%)' + '</td>';
+            cols += '<td align="right" colspan=7><strong>{{trans("file.Order Tax")}}:</strong></td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(purchase[16]).toFixed(2)) + '(' + purchase[17] + '%)' + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
-            cols += '<td colspan=7><strong>{{trans("file.Order Discount")}}:</strong></td>';
-            cols += '<td>' + purchase[18] + '</td>';
+            cols += '<td align="right" colspan=7><strong>{{trans("file.Order Discount")}}:</strong></td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(purchase[18]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
-            cols += '<td colspan=7><strong>{{trans("file.Shipping Cost")}}:</strong></td>';
-            cols += '<td>' + purchase[19] + '</td>';
+            cols += '<td align="right" colspan=7><strong>{{trans("file.Shipping Cost")}}:</strong></td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(purchase[19]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
-            cols += '<td colspan=7><strong>{{trans("file.grand total")}}:</strong></td>';
-            cols += '<td>' + purchase[20] + '</td>';
+            cols += '<td align="right" colspan=7><strong>{{trans("file.grand total")}}:</strong></td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(purchase[20]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
-            cols += '<td colspan=7><strong>{{trans("file.Paid Amount")}}:</strong></td>';
-            cols += '<td>' + purchase[21] + '</td>';
+            cols += '<td align="right" colspan=7><strong>{{trans("file.Paid Amount")}}:</strong></td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(purchase[21]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
-            cols += '<td colspan=7><strong>{{trans("file.Due")}}:</strong></td>';
-            cols += '<td>' + (purchase[20] - purchase[21]) + '</td>';
+            cols += '<td align="right" colspan=7><strong>{{trans("file.Due")}}:</strong></td>';
+            cols += '<td align="right">' + numberWithCommas(parseFloat((purchase[20] - purchase[21])).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 

@@ -310,4 +310,5 @@ $(document).ready(function() {
 </script>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/salepro/resources/views/tax/create.blade.php ENDPATH**/ ?>

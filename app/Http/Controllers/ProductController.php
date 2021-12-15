@@ -43,15 +43,16 @@ class ProductController extends Controller
     public function productData(Request $request)
     {
         $columns = array( 
-            2 => 'name', 
-            3 => 'code',
-            4 => 'brand_id',
-            5 => 'category_id',
-            6 => 'qty',
-            7 => 'unit_id',
-            8 => 'price',
-            9 => 'cost',
-            10 => 'stock_worth'
+            2 => 'name',
+            3 => 'ingrediente',
+            4 => 'code',
+            5 => 'brand_id',
+            6 => 'category_id',
+            7 => 'qty',
+            8 => 'unit_id',
+            9 => 'price',
+            10 => 'cost',
+            11 => 'stock_worth'
         );
         
         $totalData = Product::where('is_active', true)->count();
@@ -83,6 +84,10 @@ class ProductController extends Controller
                             ['products.is_active', true]
                         ])
                         ->orWhere([
+                            ['products.ingrediente', 'LIKE', "%{$search}%"],
+                            ['products.is_active', true]
+                        ])
+                        ->orWhere([
                             ['products.code', 'LIKE', "%{$search}%"],
                             ['products.is_active', true]
                         ])
@@ -105,6 +110,10 @@ class ProductController extends Controller
                             ->leftjoin('brands', 'products.brand_id', '=', 'brands.id')
                             ->where([
                                 ['products.name','LIKE',"%{$search}%"],
+                                ['products.is_active', true]
+                            ])
+                            ->orWhere([
+                                ['products.ingrediente', 'LIKE', "%{$search}%"],
                                 ['products.is_active', true]
                             ])
                             ->orWhere([
@@ -134,6 +143,7 @@ class ProductController extends Controller
                 $product_image = htmlspecialchars($product_image[0]);
                 $nestedData['image'] = '<img src="'.url('public/images/product', $product_image).'" height="80" width="80">';
                 $nestedData['name'] = $product->name;
+                $nestedData['ingrediente'] = $product->ingrediente;
                 $nestedData['code'] = $product->code;
                 if($product->brand_id)
                     $nestedData['brand'] = $product->brand->title;
@@ -186,7 +196,7 @@ class ProductController extends Controller
                 else
                     $tax_method = trans('file.Inclusive');
 
-                $nestedData['product'] = array( '[ "'.$product->type.'"', ' "'.$product->name.'"', ' "'.$product->code.'"', ' "'.$nestedData['brand'].'"', ' "'.$nestedData['category'].'"', ' "'.$nestedData['unit'].'"', ' "'.$product->cost.'"', ' "'.$product->price.'"', ' "'.$tax.'"', ' "'.$tax_method.'"', ' "'.$product->alert_quantity.'"', ' "'.preg_replace('/\s+/S', " ", $product->product_details).'"', ' "'.$product->id.'"', ' "'.$product->product_list.'"', ' "'.$product->variant_list.'"', ' "'.$product->qty_list.'"', ' "'.$product->price_list.'"', ' "'.$product->qty.'"', ' "'.$product->image.'"]'
+                $nestedData['product'] = array( '[ "'.$product->type.'"', ' "'.$product->name.'"', ' "'.$product->ingrediente.'"',' "'.$product->code.'"', ' "'.$nestedData['brand'].'"', ' "'.$nestedData['category'].'"', ' "'.$nestedData['unit'].'"', ' "'.$product->cost.'"', ' "'.$product->price.'"', ' "'.$tax.'"', ' "'.$tax_method.'"', ' "'.$product->alert_quantity.'"', ' "'.preg_replace('/\s+/S', " ", $product->product_details).'"', ' "'.$product->id.'"', ' "'.$product->product_list.'"', ' "'.$product->variant_list.'"', ' "'.$product->qty_list.'"', ' "'.$product->price_list.'"', ' "'.$product->qty.'"', ' "'.$product->image.'"]'
                 );
                 //$nestedData['imagedata'] = DNS1D::getBarcodePNG($product->code, $product->barcode_symbology);
                 $data[] = $nestedData;
@@ -237,6 +247,7 @@ class ProductController extends Controller
         ]);
         $data = $request->except('image', 'file');
         $data['name'] = htmlspecialchars(trim($data['name']));
+        $data['ingrediente'] = htmlspecialchars(trim($data['ingrediente']));
         if($data['type'] == 'combo'){
             $data['product_list'] = implode(",", $data['product_id']);
             $data['variant_list'] = implode(",", $data['variant_id']);
@@ -354,6 +365,7 @@ class ProductController extends Controller
             $lims_product_data = Product::findOrFail($request->input('id'));
             $data = $request->except('image', 'file', 'prev_img');
             $data['name'] = htmlspecialchars(trim($data['name']));
+            $data['ingrediente'] = htmlspecialchars(trim($data['ingrediente']));
 
             if($data['type'] == 'combo') {
                 $data['product_list'] = implode(",", $data['product_id']);

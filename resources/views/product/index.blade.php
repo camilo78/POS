@@ -29,6 +29,7 @@
                     <th class="not-exported"></th>
                     <th>{{trans('file.Image')}}</th>
                     <th>{{trans('file.name')}}</th>
+                    <th>Ingred. Activo</th>
                     <th>{{trans('file.Code')}}</th>
                     <th>{{trans('file.Brand')}}</th>
                     <th>{{trans('file.category')}}</th>
@@ -328,6 +329,7 @@
                 {"data": "key"},
                 {"data": "image"},
                 {"data": "name"},
+                {"data": "ingrediente"},
                 {"data": "code"},
                 {"data": "brand"},
                 {"data": "category"},
