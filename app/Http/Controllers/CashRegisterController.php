@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CashRegister;
 use App\Sale;
-use App\GeneralSetting;
 use App\Payment;
-use App\Warehouse;
-use App\Biller;
 use App\Returns;
 use App\Expense;
 use Auth;
@@ -42,7 +39,6 @@ class CashRegisterController extends Controller
         $data['factura_inicio']= $factura_inicio->reference_no;
         $data['factura_fin']= $factura_fin->reference_no;
         $data['cajero'] = $cash_register_data->user->name;
-        $data['companyname'] = Biller::where('id',$cash_register_data->user->id)->first()->company_name;
         $data['open'] = $cash_register_data->created_at->format('d/m/Y h:s');
         $data['close'] = $cash_register_data->updated_at->format('d/m/Y h:s');
         $data['cash_in_hand'] = $cash_register_data->cash_in_hand;
