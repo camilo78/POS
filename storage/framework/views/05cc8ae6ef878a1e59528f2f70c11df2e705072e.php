@@ -52,7 +52,11 @@
         <div role="document" class="modal-dialog" id="seleccion">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 id="exampleModalLabel" class="modal-title"><?php echo e(trans('file.Cash Register Details')); ?></h5>
+                <?php if($general_setting->site_logo): ?>
+                    <img class="d-none" src="<?php echo e(url('public/logo', $general_setting->site_logo)); ?>" height="120">
+                <?php endif; ?>
+                <h1 class="d-none" id="companyname"></h1>
+              <h5 id="exampleModalLabel" class="modal-title">Detalle de Ventas Diarias</h5>
               <a href="javascript:imprSelec('seleccion')" class="btn btn-default btn-sm ml-3 d-print-none"><i class="dripicons-print"></i> Imprimir</a>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close d-print-none"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
             </div>
@@ -131,7 +135,7 @@
     function imprSelec(seleccion) {
       var seleccion = document.getElementById(seleccion);
       var ventimp = window.open(' ', 'popimpr');
-      ventimp.document.write('<html><head><title>' + document.title + '</title> </title> <style media="print"> body{font-size:12px;margin-top:0px;transform: scale(.9);}table {width: 100%;border-collapse: collapse; margin-top:10px;}td {border: grey 1px solid; font-size:12px;} .text-right{text-align: right } .d-print-none{display:none} h5{font-size:18px;margin-top: 0;margin-bottom:10px;}</style>');
+      ventimp.document.write('<html><head><title>' + document.title + '</title> </title> <style media="print"> body{font-size:14px;margin-top:0px;transform: scale(.9);}table {width: 100%;border-collapse: collapse; margin-top:10px;}td {border: grey 1px solid; font-size:14px;} .text-right{text-align: right } .d-print-none{display:none} img{display:block;margin:auto;} h5{font-size:18px;margin-top: 0;margin-bottom:10px;text-align:center;} h1{text-align:center}</style>');
       ventimp.document.write('</head><body >');
       ventimp.document.write( seleccion.innerHTML );
       ventimp.document.write('</body></html>');
@@ -164,6 +168,7 @@
               else
                 $("#register-details-modal #closing-section").addClass('d-none');
                 $('#cajero').text(data['cajero']);
+                $('#companyname').text(data['companyname']);
                 $('#open').text(data['open']);
                 $('#close').text(data['close']);
                 $('#factura_inicio').text(data['factura_inicio']);
