@@ -38,7 +38,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Ingrediente Activo *</strong> </label>
-                                        <input type="text" name="ingrediente" class="form-control" value="{{$lims_product_data->ingrediente}}" id="ingrediente" aria-describedby="ingrediente" required>
+                                        <input type="text" name="ingrediente" class="form-control" value="{{$lims_product_data->ingrediente}}" id="ingrediente" aria-describedby="ingrediente" >
                                         <span class="validation-msg" id="ingrediente-error"></span>
                                     </div>
                                 </div>

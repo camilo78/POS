@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{trans('file.name')}} *</strong> </label>
+                                    <label>{{trans('file.Company Name')}} *</strong> </label>
                                     <input type="text" name="name" required class="form-control">
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-md-6">   
                                 <div class="form-group">
-                                    <label>{{trans('file.Company Name')}} *</label>
+                                    <label>Nombre del vendedor *</label>
                                     <input type="text" name="company_name" required class="form-control">
                                     @if($errors->has('company_name'))
                                    <span>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{trans('file.VAT Number')}}</label>
+                                    <label>RTN:</label>
                                     <input type="text" name="vat_number" class="form-control">
                                 </div>
                             </div>

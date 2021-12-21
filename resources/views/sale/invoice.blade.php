@@ -8,11 +8,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="all,follow">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
         <style type="text/css">
         * {
         font-size: 14px;
         line-height: 24px;
-        font-family: 'Ubuntu', sans-serif;
+        font-family: 'IBM Plex Mono', monospace;
         text-transform: capitalize;
         }
         .btn {
@@ -58,7 +62,13 @@
         .hidden-print {
         display: none !important;
         }
-        @page { margin: 1.5cm 0.3cm 0.3cm; }
+
+        @page { 
+           
+            margin-left: 0px;
+            margin-right: 20px;
+
+         }
         @page:first { margin-top: 0.5cm; }
         tbody::after {
         content: ''; display: block;
@@ -90,8 +100,10 @@
                     @if($general_setting->site_logo)
                     <img src="{{url('public/logo', $general_setting->site_logo)}}" height="120" style="filter: grayscale(100%);">
                     @endif
-                    <h2>{{$lims_biller_data->company_name}}@if($general_setting->rtn)<br>RTN: {{$general_setting->rtn}}@endif</h2>
-
+                    <h1 style="font-size:20px ">{{$lims_biller_data->company_name}}</h1>
+                    @if($general_setting->rtn)
+                    <h2>RTN: {{$general_setting->rtn}}</h2>
+                    @endif
                     <p>{{trans('file.Address')}}: {{$lims_warehouse_data->address}} {{trans('file.Phone Number')}}: {{$lims_warehouse_data->phone}}
                     </p>
                 </div>
@@ -106,7 +118,7 @@
                     <tbody>
                         <tr>
                             <td colspan="2" style="text-align:left;border-top: 1 solid #ffffff">
-                                CANTIDAD/DESCRIPCIÓN/PRECIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                CANTIDAD/DESCRIPCIÓN/PRECIO
                             </td>
                             <td style="text-align:right">
                                 TOTAL
@@ -144,7 +156,7 @@
                             <td colspan="2">
                                 {{$product_sale_data->qty}} x
                                 {{$product_name}}
-                                <br>{{number_format((float)($product_sale_data->total / $product_sale_data->qty), 2, '.', '')}}
+                                {{number_format((float)($product_sale_data->total / $product_sale_data->qty), 2, '.', '')}}
                                 @if($product_sale_data->tax_rate)
                                 <?php $total_product_tax += $product_sale_data->tax ?>
                                 [{{trans('file.tax_avb')}} {{$product_sale_data->tax_rate}}%: {{number_format((float)($product_sale_data->tax), 2, '.', '')}}]
@@ -152,7 +164,6 @@
 
                                 @if($product_sale_data->discount)
                                 [{{trans('file.descuento_avb')}}
-                                {{(($product_sale_data->discount/$product_sale_data->qty) * 100)/$lims_product_data->price}}%
                                 {{number_format((float)($product_sale_data->discount), 2, '.', '')}}]
                                 @php $tota_product_discount += $product_sale_data->discount @endphp
                                 @endif
@@ -289,12 +300,12 @@
                         </tr>
                         <tr>
                             <td class="centered" colspan="3">
-                                {{trans('RANGO AUTORIZADO')}} : {{$lims_sale_data->period->emission_point}}-{{$lims_sale_data->period->agency}}-{{$lims_sale_data->period->document_type}}-{{$lims_sale_data->period->rank_start}}/{{$lims_sale_data->period->rank_end}}
+                                {{trans('RANGO AUTORIZADO')}} : <br> {{$lims_sale_data->period->emission_point}}-{{$lims_sale_data->period->agency}}-{{$lims_sale_data->period->document_type}}-{{$lims_sale_data->period->rank_start}}/{{$lims_sale_data->period->rank_end}}
                             </td>
                         </tr>
                         <tr>
                             <td class="centered" colspan="3">
-                                {{trans('FECHA LIMITE DE EMISIÓN')}} : {{Carbon\Carbon::parse($lims_sale_data->period->deadline)->format('d-m-Y')}}
+                                {{trans('FECHA LIMITE DE EMISIÓN')}} :  <br>{{Carbon\Carbon::parse($lims_sale_data->period->deadline)->format('d-m-Y')}}
                             </td>
                         </tr>
                         <tr>
