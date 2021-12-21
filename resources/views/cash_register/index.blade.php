@@ -53,6 +53,7 @@
           <div class="modal-content">
             <div class="modal-header">
                 <h1 class="d-none">Mi Farmacia</h1>
+                <h3 class="d-none">Ave. San Isidro entre 9 y 8 calle, frente al Parque Central La Ceiba Atlántida.</h3>
               <h5 id="exampleModalLabel" class="modal-title">Detalle de Ventas Diarias</h5>
               <a href="javascript:imprSelec('seleccion')" class="btn btn-default btn-sm ml-3 d-print-none"><i class="dripicons-print"></i> Imprimir</a>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close d-print-none"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
@@ -132,7 +133,7 @@
     function imprSelec(seleccion) {
       var seleccion = document.getElementById(seleccion);
       var ventimp = window.open(' ', 'popimpr');
-      ventimp.document.write('<html><head><title>' + document.title + '</title> </title> <style media="print"> body{font-size:14px;margin-top:0px;transform: scale(.9);}table {width: 100%;border-collapse: collapse; margin-top:10px;}td {border: grey 1px solid; font-size:14px;} .text-right{text-align: right } .d-print-none{display:none} h5{font-size:18px;margin-top: 0;margin-bottom:10px;text-align:center;} h1{text-align:center}</style>');
+      ventimp.document.write('<html><head><title>' + document.title + '</title> </title> <style media="print"> body{font-size:14px;margin-top:0px;transform: scale(.9);}table {width: 100%;border-collapse: collapse; margin-top:10px;}td {border: grey 1px solid; font-size:14px;} .text-right{text-align: right } .d-print-none{display:none} h5{font-size:18px;margin-top: 0;margin-bottom:10px;text-align:center;} h1, h3{text-align:center}</style>');
       ventimp.document.write('</head><body >');
       ventimp.document.write( seleccion.innerHTML );
       ventimp.document.write('</body></html>');
