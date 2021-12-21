@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('content'); ?>
 <?php if($errors->has('phone_number')): ?>
 <div class="alert alert-danger alert-dismissible text-center">

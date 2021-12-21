@@ -49,20 +49,25 @@
     </div>
     <!-- cash register details modal -->
     <div id="register-details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-        <div role="document" class="modal-dialog">
+        <div role="document" class="modal-dialog" id="seleccion">
           <div class="modal-content">
             <div class="modal-header">
               <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Cash Register Details')}}</h5>
-              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+              <a href="javascript:imprSelec('seleccion')" class="btn btn-default btn-sm ml-3 d-print-none"><i class="dripicons-print"></i> Imprimir</a>
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close d-print-none"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
             </div>
             <div class="modal-body">
-              <p>{{trans('file.Please review the transaction and payments.')}}</p>
+                Cajero: <span id="cajero" ></span><br>
+                Abierto a las : <span id="open" ></span> --
+                Cerrado a las : <span id="close" ></span>
+                Facturas Inicio:_____________________ Fin:_____________________
+              <p class="d-print-none">{{trans('file.Please review the transaction and payments.')}}</p>
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                  <td>{{trans('file.Cash in Hand')}}:</td>
+                                  <td>Dinero para cambio:</td>
                                   <td id="cash_in_hand" class="text-right">100</td>
                                 </tr>
                                 <tr>
@@ -112,7 +117,7 @@
                         <form action="{{route('cashRegister.close')}}" method="POST">
                             @csrf
                             <input type="hidden" name="cash_register_id">
-                            <button type="submit" class="btn btn-primary" onclick="return confirmClose()">{{trans('file.Close Register')}}</button>
+                            <button type="submit" class="btn btn-primary d-print-none" onclick="return confirmClose()">{{trans('file.Close Register')}}</button>
                         </form>
                     </div>
                 </div>
@@ -120,8 +125,21 @@
           </div>
         </div>
     </div>
-</seaction>
+</section>
 
+  <script language="Javascript">
+    function imprSelec(seleccion) {
+      var seleccion = document.getElementById(seleccion);
+      var ventimp = window.open(' ', 'popimpr');
+      ventimp.document.write('<html><head><title>' + document.title + '</title> </title> <style media="print"> body{font-size:12px;margin-top:0px;transform: scale(.9);}table {width: 100%;border-collapse: collapse; margin-top:10px;}td {border: grey 1px solid; font-size:12px;} .text-right{text-align: right } .d-print-none{display:none} h5{font-size:18px;margin-top: 0;margin-bottom:10px;}</style>');
+      ventimp.document.write('</head><body >');
+      ventimp.document.write( seleccion.innerHTML );
+      ventimp.document.write('</body></html>');
+      ventimp.document.close();
+      ventimp.print( );
+      ventimp.close();
+    }
+    </script>
 <script type="text/javascript">
 
     function confirmClose() {
@@ -129,6 +147,10 @@
           return true;
       }
       return false;
+    }
+
+    function numberWithCommas(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
   $(".register-details-btn").on("click", function (e) {
@@ -141,19 +163,23 @@
                 $("#register-details-modal #closing-section").removeClass('d-none');
               else
                 $("#register-details-modal #closing-section").addClass('d-none');
+                $('#cajero').text(data['cajero']);
+                $('#open').text(data['open']);
+                $('#close').text(data['close']);
 
-              $('#register-details-modal #cash_in_hand').text(data['cash_in_hand']);
-              $('#register-details-modal #total_sale_amount').text(data['total_sale_amount']);
-              $('#register-details-modal #total_payment').text(data['total_payment']);
-              $('#register-details-modal #cash_payment').text(data['cash_payment']);
-              $('#register-details-modal #credit_card_payment').text(data['credit_card_payment']);
-              $('#register-details-modal #cheque_payment').text(data['cheque_payment']);
-              $('#register-details-modal #gift_card_payment').text(data['gift_card_payment']);
-              $('#register-details-modal #paypal_payment').text(data['paypal_payment']);
-              $('#register-details-modal #total_sale_return').text(data['total_sale_return']);
-              $('#register-details-modal #total_expense').text(data['total_expense']);
-              $('#register-details-modal #total_cash').text(data['total_cash']);
+              $('#register-details-modal #cash_in_hand').text('Lps. '+numberWithCommas(data['cash_in_hand'].toFixed(2)));
+              $('#register-details-modal #total_sale_amount').text('Lps. '+numberWithCommas(data['total_sale_amount'].toFixed(2)));
+              $('#register-details-modal #total_payment').text('Lps. '+numberWithCommas(data['total_payment'].toFixed(2)));
+              $('#register-details-modal #cash_payment').text('Lps. '+numberWithCommas(data['cash_payment'].toFixed(2)));
+              $('#register-details-modal #credit_card_payment').text('Lps. '+numberWithCommas(data['credit_card_payment'].toFixed(2)));
+              $('#register-details-modal #cheque_payment').text('Lps. '+numberWithCommas(data['cheque_payment'].toFixed(2)));
+              $('#register-details-modal #gift_card_payment').text('Lps. '+numberWithCommas(data['gift_card_payment'].toFixed(2)));
+              $('#register-details-modal #paypal_payment').text('Lps. '+numberWithCommas(data['paypal_payment'].toFixed(2)));
+              $('#register-details-modal #total_sale_return').text('Lps. '+numberWithCommas(data['total_sale_return'].toFixed(2)));
+              $('#register-details-modal #total_expense').text('Lps. '+numberWithCommas(data['total_expense'].toFixed(2)));
+              $('#register-details-modal #total_cash').text('Lps. '+numberWithCommas(data['total_cash'].toFixed(2)));
               $('#register-details-modal input[name=cash_register_id]').val(id);
+
           }
       });
   });
@@ -228,4 +254,5 @@
         ],
     } );
 </script>
+
 @endsection

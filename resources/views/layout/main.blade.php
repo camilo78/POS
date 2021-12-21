@@ -88,6 +88,8 @@
 
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?php echo asset('public/css/custom-'.$general_setting->theme) ?>" type="text/css" id="custom-style">
+
+     @yield('css')
   </head>
   
   <body onload="myFunction()">

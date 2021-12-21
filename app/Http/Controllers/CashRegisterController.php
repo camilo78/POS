@@ -33,8 +33,10 @@ class CashRegisterController extends Controller
 	public function getDetails($id)
 	{
 		$cash_register_data = CashRegister::find($id);
-
-		$data['cash_in_hand'] = $cash_register_data->cash_in_hand;
+        $data['cajero'] = $cash_register_data->user->name;
+        $data['open'] = $cash_register_data->created_at->format('d/m/Y h:s');
+        $data['close'] = $cash_register_data->updated_at->format('d/m/Y h:s');
+        $data['cash_in_hand'] = $cash_register_data->cash_in_hand;
 		$data['total_sale_amount'] = Sale::where([
 										['cash_register_id', $cash_register_data->id],
 										['sale_status', 1]
