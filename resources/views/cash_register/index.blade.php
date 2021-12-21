@@ -60,7 +60,7 @@
                 Cajero: <span id="cajero" ></span><br>
                 Abierto a las : <span id="open" ></span> --
                 Cerrado a las : <span id="close" ></span>
-                Facturas Inicio:_____________________ Fin:_____________________
+                Facturas Inicio: <span id="factura_inicio" ></span> Fin: <span id="factura_fin" ></span>
               <p class="d-print-none">{{trans('file.Please review the transaction and payments.')}}</p>
                 <div class="row">
                     <div class="col-md-12">
@@ -166,7 +166,8 @@
                 $('#cajero').text(data['cajero']);
                 $('#open').text(data['open']);
                 $('#close').text(data['close']);
-
+                $('#factura_inicio').text(data['factura_inicio']);
+                $('#factura_fin').text(data['factura_fin']);
               $('#register-details-modal #cash_in_hand').text('Lps. '+numberWithCommas(data['cash_in_hand'].toFixed(2)));
               $('#register-details-modal #total_sale_amount').text('Lps. '+numberWithCommas(data['total_sale_amount'].toFixed(2)));
               $('#register-details-modal #total_payment').text('Lps. '+numberWithCommas(data['total_payment'].toFixed(2)));

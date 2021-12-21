@@ -32,7 +32,12 @@ class CashRegisterController extends Controller
 
 	public function getDetails($id)
 	{
+
 		$cash_register_data = CashRegister::find($id);
+        $factura_inicio = Sale::where('cash_register_id', $cash_register_data->id)->first();
+        $factura_fin = Sale::where('cash_register_id', $cash_register_data->id)->get()->last();
+        $data['factura_inicio']= $factura_inicio->reference_no;
+        $data['factura_fin']= $factura_fin->reference_no;
         $data['cajero'] = $cash_register_data->user->name;
         $data['open'] = $cash_register_data->created_at->format('d/m/Y h:s');
         $data['close'] = $cash_register_data->updated_at->format('d/m/Y h:s');
