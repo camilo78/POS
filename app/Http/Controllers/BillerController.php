@@ -95,7 +95,6 @@ class BillerController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-
             'email' => [
                 'email',
                 'max:255',
