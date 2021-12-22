@@ -45,8 +45,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{trans('file.Phone Number')}} *</label>
-                                    <input type="text" name="phone_number" required value="{{$lims_customer_data->phone_number}}" class="form-control">
+                                    <label>{{trans('file.Phone Number')}} </label>
+                                    <input type="text" name="phone_number" value="{{$lims_customer_data->phone_number}}" class="form-control">
                                     @if($errors->has('phone_number'))
                                    <span>
                                        <strong>{{ $errors->first('phone_number') }}</strong>

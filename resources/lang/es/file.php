@@ -123,7 +123,7 @@ return [
 	"City" => "Ciudad",
 	"Postal Code" => "Código postal",
 	"Country" => "País",
-	"State" => "Estado",
+	"State" => "Departamento",
 	"Upload File" => "Subir archivo",
 	"List" => "Lista",
 	"VAT Number" => "Número de valor agregado",

@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
 <?php if($errors->has('phone_number')): ?>
 <div class="alert alert-danger alert-dismissible text-center">
@@ -1475,20 +1474,24 @@
                             <input type="text" name="customer_name" required class="form-control">
                         </div>
                         <div class="form-group">
+                            <label><?php echo e(trans('file.Tax Number')); ?> </strong> </label>
+                            <input type="text" name="tax_no" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label><?php echo e(trans('file.Email')); ?></label>
                             <input type="text" name="email" placeholder="example@example.com" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label><?php echo e(trans('file.Phone Number')); ?> *</label>
-                            <input type="text" name="phone_number" required class="form-control">
+                            <label><?php echo e(trans('file.Phone Number')); ?> </label>
+                            <input type="text" name="phone_number"  class="form-control">
                         </div>
                         <div class="form-group">
-                            <label><?php echo e(trans('file.Address')); ?> *</label>
-                            <input type="text" name="address" required class="form-control">
+                            <label><?php echo e(trans('file.Address')); ?> </label>
+                            <input type="text" name="address" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label><?php echo e(trans('file.City')); ?> *</label>
-                            <input type="text" name="city" required class="form-control">
+                            <label><?php echo e(trans('file.City')); ?> </label>
+                            <input type="text" name="city" class="form-control">
                         </div>
                         <div class="form-group">
                         <input type="hidden" name="pos" value="1">

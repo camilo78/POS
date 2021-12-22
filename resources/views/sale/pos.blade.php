@@ -1459,20 +1459,24 @@
                             <input type="text" name="customer_name" required class="form-control">
                         </div>
                         <div class="form-group">
+                            <label>{{trans('file.Tax Number')}} </strong> </label>
+                            <input type="text" name="tax_no" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label>{{trans('file.Email')}}</label>
                             <input type="text" name="email" placeholder="example@example.com" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>{{trans('file.Phone Number')}} *</label>
-                            <input type="text" name="phone_number" required class="form-control">
+                            <label>{{trans('file.Phone Number')}} </label>
+                            <input type="text" name="phone_number"  class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>{{trans('file.Address')}} *</label>
-                            <input type="text" name="address" required class="form-control">
+                            <label>{{trans('file.Address')}} </label>
+                            <input type="text" name="address" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>{{trans('file.City')}} *</label>
-                            <input type="text" name="city" required class="form-control">
+                            <label>{{trans('file.City')}} </label>
+                            <input type="text" name="city" class="form-control">
                         </div>
                         <div class="form-group">
                         <input type="hidden" name="pos" value="1">
