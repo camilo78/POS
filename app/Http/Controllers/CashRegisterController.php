@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CashRegister;
 use App\Sale;
+use App\Product_Sale;
 use App\Payment;
 use App\Returns;
 use App\Expense;
@@ -71,6 +72,30 @@ class CashRegisterController extends Controller
 									['cash_register_id', $cash_register_data->id],
 									['paying_method', 'Paypal']
 								])->sum('amount');
+        $data['paypal_payment'] = Payment::where([
+                                    ['cash_register_id', $cash_register_data->id],
+                                    ['paying_method', 'Paypal']
+                                ])->sum('amount');
+        $sales = Sale::where('cash_register_id', $cash_register_data->id)->get();
+        $total_tax = Sale::where('cash_register_id', $cash_register_data->id)->sum('total_tax');
+        $grand_total = Sale::where('cash_register_id', $cash_register_data->id)->sum('grand_total');
+        $importe_15_imp = 0;
+        $importe_18_imp = 0;
+        $tax_15_imp = 0;
+        $tax_18_imp = 0;
+        foreach($sales as $sale){
+            $importe_15_imp += Product_Sale::where('sale_id', $sale->id)->where('tax_rate', '15')->sum('net_unit_price');
+            $importe_18_imp += Product_Sale::where([['sale_id', $sale->id],['tax_rate', '18']])->sum('net_unit_price');
+            $tax_15_imp += Product_Sale::where([['sale_id', $sale->id],['tax_rate', '15']])->sum('tax');
+            $tax_18_imp += Product_Sale::where([['sale_id', $sale->id],['tax_rate', '18']])->sum('tax');
+        }
+        $data['importe_15_imp'] = $importe_15_imp - $tax_15_imp;
+        $data['importe_18_imp'] = $importe_18_imp - $tax_18_imp;
+        $data['importe_0_imp'] = $grand_total - $importe_15_imp - $importe_18_imp;
+        $data['tax_15_imp'] = $tax_15_imp;
+        $data['tax_18_imp'] = $tax_18_imp;
+        $data['total_tax'] = $total_tax;
+
 		$data['total_sale_return'] = Returns::where('cash_register_id', $cash_register_data->id)->sum('grand_total');
 		$data['total_expense'] = Expense::where('cash_register_id', $cash_register_data->id)->sum('amount');
 		$data['total_cash'] = $data['cash_in_hand'] + $data['total_payment'] - ($data['total_sale_return'] + $data['total_expense']);

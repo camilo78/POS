@@ -396,10 +396,6 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>Exonerado</label> <br>
-                                <input type="checkbox" checked data-toggle="toggle" data-on="Hello<br>World" data-off=" " disabled>
-                            </div>
                             <div id="edit_unit" class="form-group">
                                 <label><?php echo e(trans('file.Product Unit')); ?></label>
                                 <select name="edit_unit" class="form-control selectpicker">

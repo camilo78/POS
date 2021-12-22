@@ -175,7 +175,7 @@
                                 @endif
                                 @if($product_sale_data->tax_rate == 18)
                                 @php   $total_product_tax_ocho += $total_product_tax;
-                                $total_importe_ocho += $product_sale_data->total - $total_product_tax_ocho;
+                                $total_importe_ocho += $product_sale_data->total
                                 @endphp
                                 @endif
                                 @if(!$product_sale_data->tax_rate)

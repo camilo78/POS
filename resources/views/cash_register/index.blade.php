@@ -109,6 +109,30 @@
                                   <td id="total_expense" class="text-right"></td>
                                 </tr>
                                 <tr>
+                                  <td>Importe Exento:</td>
+                                  <td id="importe_0_imp" class="text-right"></td>
+                                </tr>
+                                 <tr>
+                                  <td>Importe 15%:</td>
+                                  <td id="importe_15_imp" class="text-right"></td>
+                                </tr>
+                                <tr>
+                                  <td>Importe 18%:</td>
+                                  <td id="importe_18_imp" class="text-right"></td>
+                                </tr>
+                                <tr>
+                                  <td>Impuesto 15%:</td>
+                                  <td id="tax_15_imp" class="text-right"></td>
+                                </tr>
+                                <tr>
+                                  <td>Impuesto 18%:</td>
+                                  <td id="tax_18_imp" class="text-right"></td>
+                                </tr>
+                                <tr>
+                                  <td>Total de Impuesto:</td>
+                                  <td id="total_tax" class="text-right"></td>
+                                </tr>
+                                <tr>
                                   <td><strong>{{trans('file.Total Cash')}}:</strong></td>
                                   <td id="total_cash" class="text-right"></td>
                                 </tr>
@@ -166,6 +190,14 @@
               else
                 $("#register-details-modal #closing-section").addClass('d-none');
                 $('#cajero').text(data['cajero']);
+                $('#importe_15_imp').text('Lps. '+numberWithCommas(data['importe_15_imp'].toFixed(2)));
+                $('#total_tax').text('Lps. '+numberWithCommas(data['total_tax'].toFixed(2)));
+
+                $('#importe_18_imp').text('Lps. '+numberWithCommas(data['importe_18_imp'].toFixed(2)));
+                $('#importe_0_imp').text('Lps. '+numberWithCommas(data['importe_0_imp'].toFixed(2)));
+
+                $('#tax_15_imp').text('Lps. '+numberWithCommas(data['tax_15_imp'].toFixed(2)));
+                $('#tax_18_imp').text('Lps. '+numberWithCommas(data['tax_18_imp'].toFixed(2)));
                 $('#open').text(data['open']);
                 $('#close').text(data['close']);
                 $('#factura_inicio').text(data['factura_inicio']);
