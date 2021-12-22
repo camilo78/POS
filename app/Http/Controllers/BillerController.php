@@ -42,12 +42,6 @@ class BillerController extends Controller
     public function store(Request $request)
     {
     	$this->validate($request, [
-            'company_name' => [
-                'max:255',
-                    Rule::unique('billers')->where(function ($query) {
-                    return $query->where('is_active', 1);
-                }),
-            ],
             'email' => [
                 'email',
                 'max:255',
@@ -101,12 +95,7 @@ class BillerController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'company_name' => [
-                'max:255',
-                    Rule::unique('billers')->ignore($id)->where(function ($query) {
-                    return $query->where('is_active', 1);
-                }),
-            ],
+
             'email' => [
                 'email',
                 'max:255',
