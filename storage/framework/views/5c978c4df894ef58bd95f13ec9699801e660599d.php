@@ -294,7 +294,7 @@
                     <tbody>
                         <?php $__currentLoopData = $lims_payment_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment_data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr style="background-color:#ddd;">
-                            <td style="padding: 5px;width:30%"><?php echo e(trans('file.Paid By')); ?>: <?php echo e($payment_data->paying_method); ?></td>
+                            <td style="padding: 5px;width:30%"><?php echo e(trans('file.Paid By')); ?>: <?php echo e(trans("file.$payment_data->paying_method")); ?></td>
                             <td style="padding: 5px;width:40%"><?php echo e(trans('file.Amount')); ?>: <?php echo e(number_format((float)$payment_data->amount, 2, '.', '')); ?></td>
                             <td style="padding: 5px;width:30%"><?php echo e(trans('file.Change')); ?>: <?php echo e(number_format((float)$payment_data->change, 2, '.', '')); ?></td>
                         </tr>
@@ -310,6 +310,9 @@
                                 <?php echo e(trans('RANGO AUTORIZADO')); ?> : <br> <?php echo e($lims_sale_data->period->emission_point); ?>-<?php echo e($lims_sale_data->period->agency); ?>-<?php echo e($lims_sale_data->period->document_type); ?>-<?php echo e($lims_sale_data->period->rank_start); ?>/<?php echo e($lims_sale_data->period->rank_end); ?>
 
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="centered" colspan="3"><?php echo e($payment_data->payment_note); ?></td>
                         </tr>
                         <tr>
                             <td class="centered" colspan="3">

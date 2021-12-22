@@ -289,7 +289,7 @@
                     <tbody>
                         @foreach($lims_payment_data as $payment_data)
                         <tr style="background-color:#ddd;">
-                            <td style="padding: 5px;width:30%">{{trans('file.Paid By')}}: {{$payment_data->paying_method}}</td>
+                            <td style="padding: 5px;width:30%">{{trans('file.Paid By')}}: {{trans("file.$payment_data->paying_method")}}</td>
                             <td style="padding: 5px;width:40%">{{trans('file.Amount')}}: {{number_format((float)$payment_data->amount, 2, '.', '')}}</td>
                             <td style="padding: 5px;width:30%">{{trans('file.Change')}}: {{number_format((float)$payment_data->change, 2, '.', '')}}</td>
                         </tr>
@@ -303,6 +303,9 @@
                             <td class="centered" colspan="3">
                                 {{trans('RANGO AUTORIZADO')}} : <br> {{$lims_sale_data->period->emission_point}}-{{$lims_sale_data->period->agency}}-{{$lims_sale_data->period->document_type}}-{{$lims_sale_data->period->rank_start}}/{{$lims_sale_data->period->rank_end}}
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="centered" colspan="3">{{$payment_data->payment_note}}</td>
                         </tr>
                         <tr>
                             <td class="centered" colspan="3">
