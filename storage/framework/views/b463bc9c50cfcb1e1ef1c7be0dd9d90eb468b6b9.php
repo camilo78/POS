@@ -64,7 +64,7 @@
                 <tr>
                     <th class="not-exported"></th>
                     <th><?php echo e(trans('file.Date')); ?></th>
-                    <th><?php echo e(trans('file.reference')); ?></th>
+                    <th>Nota</th>
                     <th><?php echo e(trans('file.Supplier')); ?></th>
                     <th><?php echo e(trans('file.Purchase Status')); ?></th>
                     <th><?php echo e(trans('file.grand total')); ?></th>
@@ -544,7 +544,7 @@
             "columns": [
                 {"data": "key"},
                 {"data": "date"},
-                {"data": "reference_no"},
+                {"data": "note"},
                 {"data": "supplier"},
                 {"data": "purchase_status"},
                 {"data": "grand_total"},

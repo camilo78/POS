@@ -62,7 +62,7 @@
                 <tr>
                     <th class="not-exported"></th>
                     <th>{{trans('file.Date')}}</th>
-                    <th>{{trans('file.reference')}}</th>
+                    <th>Nota</th>
                     <th>{{trans('file.Supplier')}}</th>
                     <th>{{trans('file.Purchase Status')}}</th>
                     <th>{{trans('file.grand total')}}</th>
@@ -538,7 +538,7 @@
             "columns": [
                 {"data": "key"},
                 {"data": "date"},
-                {"data": "reference_no"},
+                {"data": "note"},
                 {"data": "supplier"},
                 {"data": "purchase_status"},
                 {"data": "grand_total"},

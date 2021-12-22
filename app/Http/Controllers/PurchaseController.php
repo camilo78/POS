@@ -64,7 +64,7 @@ class PurchaseController extends Controller
     {
         $columns = array( 
             1 => 'created_at', 
-            2 => 'reference_no',
+            2 => 'note',
             5 => 'grand_total',
             6 => 'paid_amount',
         );
@@ -124,7 +124,7 @@ class PurchaseController extends Controller
                             ->whereDate('purchases.created_at', '=' , date('Y-m-d', strtotime(str_replace('/', '-', $search))))
                             ->where('purchases.user_id', Auth::id())
                             ->orwhere([
-                                ['purchases.reference_no', 'LIKE', "%{$search}%"],
+                                ['purchases.note', 'LIKE', "%{$search}%"],
                                 ['purchases.user_id', Auth::id()]
                             ])
                             ->orwhere([
@@ -140,7 +140,7 @@ class PurchaseController extends Controller
                             ->whereDate('purchases.created_at', '=' , date('Y-m-d', strtotime(str_replace('/', '-', $search))))
                             ->where('purchases.user_id', Auth::id())
                             ->orwhere([
-                                ['purchases.reference_no', 'LIKE', "%{$search}%"],
+                                ['purchases.note', 'LIKE', "%{$search}%"],
                                 ['purchases.user_id', Auth::id()]
                             ])
                             ->orwhere([
@@ -154,7 +154,7 @@ class PurchaseController extends Controller
                             ->with('supplier', 'warehouse')
                             ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
                             ->whereDate('purchases.created_at', '=' , date('Y-m-d', strtotime(str_replace('/', '-', $search))))
-                            ->orwhere('purchases.reference_no', 'LIKE', "%{$search}%")
+                            ->orwhere('purchases.note', 'LIKE', "%{$search}%")
                             ->orwhere('suppliers.name', 'LIKE', "%{$search}%")
                             ->offset($start)
                             ->limit($limit)
@@ -164,7 +164,7 @@ class PurchaseController extends Controller
                 $totalFiltered = Purchase::
                                 leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
                                 ->whereDate('purchases.created_at', '=' , date('Y-m-d', strtotime(str_replace('/', '-', $search))))
-                                ->orwhere('purchases.reference_no', 'LIKE', "%{$search}%")
+                                ->orwhere('purchases.note', 'LIKE', "%{$search}%")
                                 ->orwhere('suppliers.name', 'LIKE', "%{$search}%")
                                 ->count();
             }
@@ -177,7 +177,7 @@ class PurchaseController extends Controller
                 $nestedData['id'] = $purchase->id;
                 $nestedData['key'] = $key;
                 $nestedData['date'] = date(config('date_format'), strtotime($purchase->created_at->toDateString()));
-                $nestedData['reference_no'] = $purchase->reference_no;
+                $nestedData['note'] = $purchase->note;
 
                 if($purchase->supplier_id) {
                     $supplier = $purchase->supplier;
