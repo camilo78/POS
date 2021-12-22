@@ -8,11 +8,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="all,follow">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
         <style type="text/css">
         * {
         font-size: 14px;
         line-height: 24px;
-        font-family: 'Ubuntu', sans-serif;
+        font-family: 'IBM Plex Mono', monospace;
         text-transform: capitalize;
         }
         .btn {
@@ -58,7 +62,13 @@
         .hidden-print {
         display: none !important;
         }
-        @page  { margin: 1.5cm 0.3cm 0.3cm; }
+
+        @page  { 
+           
+            margin-left: 0px;
+            margin-right: 20px;
+
+         }
         @page:first { margin-top: 0.5cm; }
         tbody::after {
         content: ''; display: block;
@@ -90,13 +100,16 @@
                     <?php if($general_setting->site_logo): ?>
                     <img src="<?php echo e(url('public/logo', $general_setting->site_logo)); ?>" height="120" style="filter: grayscale(100%);">
                     <?php endif; ?>
-                    <h2><?php echo e($lims_biller_data->company_name); ?><?php if($general_setting->rtn): ?><br>RTN: <?php echo e($general_setting->rtn); ?><?php endif; ?></h2>
-
+                    <h1 style="font-size:20px "><?php echo e($lims_biller_data->company_name); ?></h1>
+                    <?php if($general_setting->rtn): ?>
+                    <h2>RTN: <?php echo e($general_setting->rtn); ?></h2>
+                    <?php endif; ?>
                     <p><?php echo e(trans('file.Address')); ?>: <?php echo e($lims_warehouse_data->address); ?> <?php echo e(trans('file.Phone Number')); ?>: <?php echo e($lims_warehouse_data->phone); ?>
 
                     </p>
                 </div>
-                <p><?php echo e(trans('file.Date')); ?> y hora <?php echo e($lims_sale_data->created_at->format('d/m/Y h:s')); ?><br>
+                <p>Cajero: <?php echo e($lims_biller_data->name); ?> <br>
+                    <?php echo e(trans('file.Date')); ?> y hora <?php echo e($lims_sale_data->created_at->format('d/m/Y h:s')); ?><br>
                     <?php echo e(trans('file.reference')); ?>: <?php echo e($lims_sale_data->reference_no); ?><br>
                     <?php echo e(trans('file.customer')); ?>: <?php echo e($lims_customer_data->name); ?><br>
                     <?php if($lims_customer_data->tax_no): ?>
@@ -108,7 +121,7 @@
                     <tbody>
                         <tr>
                             <td colspan="2" style="text-align:left;border-top: 1 solid #ffffff">
-                                CANTIDAD/DESCRIPCIÓN/PRECIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                CANTIDAD/DESCRIPCIÓN/PRECIO
                             </td>
                             <td style="text-align:right">
                                 TOTAL
@@ -147,7 +160,7 @@
                                 <?php echo e($product_sale_data->qty); ?> x
                                 <?php echo e($product_name); ?>
 
-                                <br><?php echo e(number_format((float)($product_sale_data->total / $product_sale_data->qty), 2, '.', '')); ?>
+                                <?php echo e(number_format((float)($product_sale_data->total / $product_sale_data->qty), 2, '.', '')); ?>
 
                                 <?php if($product_sale_data->tax_rate): ?>
                                 <?php $total_product_tax += $product_sale_data->tax ?>
@@ -157,7 +170,6 @@
                                 <?php if($product_sale_data->discount): ?>
                                 [<?php echo e(trans('file.descuento_avb')); ?>
 
-                                <?php echo e((($product_sale_data->discount/$product_sale_data->qty) * 100)/$lims_product_data->price); ?>%
                                 <?php echo e(number_format((float)($product_sale_data->discount), 2, '.', '')); ?>]
                                 <?php $tota_product_discount += $product_sale_data->discount ?>
                                 <?php endif; ?>
@@ -295,13 +307,13 @@
                         </tr>
                         <tr>
                             <td class="centered" colspan="3">
-                                <?php echo e(trans('RANGO AUTORIZADO')); ?> : <?php echo e($lims_sale_data->period->emission_point); ?>-<?php echo e($lims_sale_data->period->agency); ?>-<?php echo e($lims_sale_data->period->document_type); ?>-<?php echo e($lims_sale_data->period->rank_start); ?>/<?php echo e($lims_sale_data->period->rank_end); ?>
+                                <?php echo e(trans('RANGO AUTORIZADO')); ?> : <br> <?php echo e($lims_sale_data->period->emission_point); ?>-<?php echo e($lims_sale_data->period->agency); ?>-<?php echo e($lims_sale_data->period->document_type); ?>-<?php echo e($lims_sale_data->period->rank_start); ?>/<?php echo e($lims_sale_data->period->rank_end); ?>
 
                             </td>
                         </tr>
                         <tr>
                             <td class="centered" colspan="3">
-                                <?php echo e(trans('FECHA LIMITE DE EMISIÓN')); ?> : <?php echo e(Carbon\Carbon::parse($lims_sale_data->period->deadline)->format('d-m-Y')); ?>
+                                <?php echo e(trans('FECHA LIMITE DE EMISIÓN')); ?> :  <br><?php echo e(Carbon\Carbon::parse($lims_sale_data->period->deadline)->format('d-m-Y')); ?>
 
                             </td>
                         </tr>

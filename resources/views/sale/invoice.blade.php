@@ -107,8 +107,9 @@
                     <p>{{trans('file.Address')}}: {{$lims_warehouse_data->address}} {{trans('file.Phone Number')}}: {{$lims_warehouse_data->phone}}
                     </p>
                 </div>
-                <p>{{trans('file.Date')}} y hora {{$lims_sale_data->created_at->format('d/m/Y h:s')}}<br>
-                    {{trans('file.reference')}}: {{$lims_sale_data->reference_no}}<br>
+                <p>Cajero: {{$lims_biller_data->name}} <br>
+                    {{trans('file.Date')}} y hora {{$lims_sale_data->created_at->format('d/m/Y h:s')}}<br>
+                    No. Factura: {{$lims_sale_data->reference_no}}<br>
                     {{trans('file.customer')}}: {{$lims_customer_data->name}}<br>
                     @if($lims_customer_data->tax_no)
                     RTN: {{$lims_customer_data->tax_no }}
