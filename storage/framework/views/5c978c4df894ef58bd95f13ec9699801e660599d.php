@@ -108,9 +108,9 @@
 
                     </p>
                 </div>
-                <p>Cajero: <?php echo e($lims_biller_data->name); ?> <br>
+                <p>Cajero: <?php echo e(auth()->user()->name); ?> <br>
                     <?php echo e(trans('file.Date')); ?> y hora <?php echo e($lims_sale_data->created_at->format('d/m/Y h:s')); ?><br>
-                    <?php echo e(trans('file.reference')); ?>: <?php echo e($lims_sale_data->reference_no); ?><br>
+                    No. Factura: <?php echo e($lims_sale_data->reference_no); ?><br>
                     <?php echo e(trans('file.customer')); ?>: <?php echo e($lims_customer_data->name); ?><br>
                     <?php if($lims_customer_data->tax_no): ?>
                     RTN: <?php echo e($lims_customer_data->tax_no); ?>
