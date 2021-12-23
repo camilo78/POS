@@ -118,7 +118,7 @@
                         <th>{{trans('file.Unit Cost')}}</th>
                         <th>{{trans('file.Tax')}}</th>
                         <th>{{trans('file.Discount')}}</th>
-                        <th>{{trans('file.Subtotal')}}</th>
+                        <th width="20%">{{trans('file.Subtotal')}}</th>
                     </thead>
                     <tbody>
                     </tbody>
@@ -129,6 +129,10 @@
     </div>
 </section>
 <script type="text/javascript">
+     function numberWithCommas(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     $("ul#return").siblings('a').attr('aria-expanded','true');
     $("ul#return").addClass("show");
     $("ul#return #purchase-return-menu").addClass("active");
@@ -325,10 +329,10 @@
                 cols += '<td>' + name_code[index] + '</td>';
                 cols += '<td>' + batch_no[index] + '</td>';
                 cols += '<td>' + qty[index] + ' ' + unit_code[index] + '</td>';
-                cols += '<td>' + (subtotal[index] / qty[index]) + '</td>';
-                cols += '<td>' + tax[index] + '(' + tax_rate[index] + '%)' + '</td>';
-                cols += '<td>' + discount[index] + '</td>';
-                cols += '<td>' + subtotal[index] + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat((subtotal[index] / qty[index])).toFixed(2))  + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat(tax[index]).toFixed(2)) + '(' + tax_rate[index] + '%)' + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat(discount[index]).toFixed(2)) + '</td>';
+                cols += '<td align="right">' + numberWithCommas(parseFloat(subtotal[index]).toFixed(2)) + '</td>';
                 newRow.append(cols);
                 newBody.append(newRow);
             });
@@ -336,23 +340,23 @@
             var newRow = $("<tr>");
             cols = '';
             cols += '<td colspan=5><strong>{{trans("file.Total")}}:</strong></td>';
-            cols += '<td>' + returns[12] + '</td>';
-            cols += '<td>' + returns[13] + '</td>';
-            cols += '<td>' + returns[14] + '</td>';
+            cols += '<td align="right">' + numberWithCommas(parseFloat(returns[12]).toFixed(2)) + '</td>';
+            cols += '<td align="right">' + numberWithCommas(parseFloat(returns[13]).toFixed(2)) + '</td>';
+            cols += '<td align="right">' + numberWithCommas(parseFloat(returns[14]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
             cols += '<td colspan=7><strong>{{trans("file.Order Tax")}}:</strong></td>';
-            cols += '<td>' + returns[15] + '(' + returns[16] + '%)' + '</td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(returns[15]).toFixed(2)) + '(' + returns[16] + '%)' + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
             var newRow = $("<tr>");
             cols = '';
             cols += '<td colspan=7><strong>{{trans("file.grand total")}}:</strong></td>';
-            cols += '<td>' + returns[17] + '</td>';
+            cols += '<td align="right">Lps. ' + numberWithCommas(parseFloat(returns[17]).toFixed(2)) + '</td>';
             newRow.append(cols);
             newBody.append(newRow);
 
