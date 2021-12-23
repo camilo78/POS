@@ -84,21 +84,21 @@
         </table>
     </div>
     <div id="return-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-        <div role="document" class="modal-dialog">
+        <div role="document" class="modal-dialog" id="seleccion">
           <div class="modal-content">
             <div class="container mt-3 pb-2 border-bottom">
             <div class="row">
-                <div class="col-md-3">
-                    <button id="print-btn" type="button" class="btn btn-default btn-sm d-print-none"><i class="dripicons-print"></i> {{trans('file.Print')}}</button>
+                <div class="col-md-12">
+                    <h3 id="exampleModalLabel" class="modal-title text-center container-fluid">{{$general_setting->site_title}}</h3>
+                </div>
+                <div class="col-md-6 d-print-none">
+                    <a href="javascript:imprSelec('seleccion')" class="btn btn-default btn-sm ml-3 d-print-none"><i class="dripicons-print"></i> Imprimir</a>
                     {{ Form::open(['route' => 'return-purchase.sendmail', 'method' => 'post', 'class' => 'sendmail-form'] ) }}
                         <input type="hidden" name="return_id">
                         <button class="btn btn-default btn-sm d-print-none"><i class="dripicons-mail"></i> {{trans('file.Email')}}</button>
                     {{ Form::close() }}
                 </div>
-                <div class="col-md-6">
-                    <h3 id="exampleModalLabel" class="modal-title text-center container-fluid">{{$general_setting->site_title}}</h3>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-6 d-print-none">
                     <button type="button" id="close-btn" data-dismiss="modal" aria-label="Close" class="close d-print-none"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
                 </div>
                 <div class="col-md-12 text-center">
@@ -159,14 +159,17 @@
         returnDetails(returns);
     });
 
-    $("#print-btn").on("click", function(){
-          var divToPrint=document.getElementById('return-details');
-          var newWin=window.open('','Print-Window');
-          newWin.document.open();
-          newWin.document.write('<link rel="stylesheet" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css"><style type="text/css">@media print {.modal-dialog { max-width: 1000px;} }</style><body onload="window.print()">'+divToPrint.innerHTML+'</body>');
-          newWin.document.close();
-          setTimeout(function(){newWin.close();},10);
-    });
+    function imprSelec(seleccion) {
+      var seleccion = document.getElementById(seleccion);
+      var ventimp = window.open(' ', 'popimpr');
+      ventimp.document.write('<html><head><title>' + document.title + '</title> </title> <style media="print"> .col-md-12{margin-bottom:0px} .col-md-6 {width:48%; margin-right:5px; margin-bottom:25px;float:left;}body{font-size:14px;margin:0px;transform: scale(.9);} table {cell-spacing: 0;border-collapse: collapse; margin-top 50px !important;}thead > tr {background-color: #025B86;color: white;}thead > tr > * {font-size: 13px;padding: 0.45em;} tr > * {padding: 0.125em 0.45em;} th, td{border: solid 1px #025B86;} .text-right{text-align: right } .text-center{text-align: center; } .d-print-none{display:none} h5{font-size:18px;margin-top: 0;margin-bottom:10px;text-align:center;} h1, h3{text-align:center}</style>');
+      ventimp.document.write('</head><body >');
+      ventimp.document.write( seleccion.innerHTML );
+      ventimp.document.write('</body></html>');
+      ventimp.document.close();
+      ventimp.print( );
+      ventimp.close();
+    }
 
     $('#return-table').DataTable( {
         "order": [],
