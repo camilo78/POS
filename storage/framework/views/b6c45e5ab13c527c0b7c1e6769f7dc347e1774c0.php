@@ -243,9 +243,9 @@
                         htmltext += product_name[index] + '<br>';
 
                     if(paper_size == 18)
-                        htmltext += '<img style="max-width:150px;" src="data:image/png;base64,'+barcode_image[index]+'" alt="barcode" /><br>';
+                        htmltext += '<img style="max-width:164px;" src="data:image/png;base64,'+barcode_image[index]+'" alt="barcode" /><br>';
                     else
-                        htmltext += '<img style="max-width:150px;" src="data:image/png;base64,'+barcode_image[index]+'" alt="barcode" /><br>';
+                        htmltext += '<img style="max-width:164px;" src="data:image/png;base64,'+barcode_image[index]+'" alt="barcode" /><br>';
 
                     htmltext += code[index] + '<br>';
                     if($('input[name="code"]').is(":checked"))
@@ -296,4 +296,5 @@
 
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/salepro/resources/views/product/print_barcode.blade.php ENDPATH**/ ?>

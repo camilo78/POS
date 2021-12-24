@@ -89,6 +89,10 @@
                                   <td id="credit_card_payment" class="text-right"></td>
                                 </tr>
                                 <tr>
+                                  <td>Pago con Deposito:</td>
+                                  <td id="deposit_payment" class="text-right"></td>
+                                </tr>
+                                <tr>
                                   <td>{{trans('file.Cheque Payment')}}:</td>
                                   <td id="cheque_payment" class="text-right"></td>
                                 </tr>
@@ -209,6 +213,7 @@
               $('#register-details-modal #credit_card_payment').text('Lps. '+numberWithCommas(data['credit_card_payment'].toFixed(2)));
               $('#register-details-modal #cheque_payment').text('Lps. '+numberWithCommas(data['cheque_payment'].toFixed(2)));
               $('#register-details-modal #gift_card_payment').text('Lps. '+numberWithCommas(data['gift_card_payment'].toFixed(2)));
+              $('#register-details-modal #deposit_payment').text('Lps. '+numberWithCommas(data['deposit_payment'].toFixed(2)));
               $('#register-details-modal #paypal_payment').text('Lps. '+numberWithCommas(data['paypal_payment'].toFixed(2)));
               $('#register-details-modal #total_sale_return').text('Lps. '+numberWithCommas(data['total_sale_return'].toFixed(2)));
               $('#register-details-modal #total_expense').text('Lps. '+numberWithCommas(data['total_expense'].toFixed(2)));
