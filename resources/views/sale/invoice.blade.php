@@ -144,7 +144,7 @@
                         }
                         elseif($product_sale_data->product_batch_id) {
                         $product_batch_data = \App\ProductBatch::select('batch_no')->find($product_sale_data->product_batch_id);
-                        $product_name = $lims_product_data->name.' ['.trans("file.Batch No").':'.$product_batch_data->batch_no.']';
+                        $product_name = $lims_product_data->name;
                         }
                         else{
                         $product_name = $lims_product_data->name;
@@ -208,42 +208,37 @@
                             <th colspan="2" style="text-align:left">Subtotal</th>
                             <th style="text-align:right">{{number_format((float)$lims_sale_data->total_price - $total_product_tax_quince - $total_product_tax_ocho, 2, '.', '')}}</th>
                         </tr>
-                        @if($total_exent != 0)
+                        
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Exento</th>
                             <th style="text-align:right">{{number_format((float)$total_exent, 2, '.', '')}}</th>
                         </tr>
-                        @if($total_exo != 0)
+                        
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Exonerado</th>
                             <th style="text-align:right">{{number_format((float)$total_exo , 2, '.', '')}}</th>
                         </tr>
-                        @endif
-                        @endif
-                        @if($total_importe_quince != 0)
+                      
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Gravado 15%</th>
                             <th style="text-align:right">{{number_format((float)$total_importe_quince - $total_product_tax_quince , 2, '.', '')}}</th>
                         </tr>
-                        @endif
-                        @if($total_importe_ocho != 0)
+                      
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Gravado 18%</th>
                             <th style="text-align:right">{{number_format((float)$total_importe_ocho - $total_product_tax_ocho, 2, '.', '')}}</th>
                         </tr>
-                        @endif
-                        @if($total_product_tax_quince != 0)
+                       
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">ISV 15%</th>
                             <th style="text-align:right">{{number_format((float)$total_product_tax_quince , 2, '.', '')}}</th>
                         </tr>
-                        @endif
-                        @if($total_product_tax_ocho != 0)
+                        
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">ISV 18%</th>
                             <th style="text-align:right">{{number_format((float)$total_product_tax_ocho , 2, '.', '')}}</th>
                         </tr>
-                        @endif
+                       
                         @if($general_setting->invoice_format == 'gst' && $general_setting->state == 1)
                         <tr style="border :none;">
                             <td colspan="2">IGST</td>

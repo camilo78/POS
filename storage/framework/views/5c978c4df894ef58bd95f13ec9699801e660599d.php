@@ -213,42 +213,37 @@
                             <th colspan="2" style="text-align:left">Subtotal</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$lims_sale_data->total_price - $total_product_tax_quince - $total_product_tax_ocho, 2, '.', '')); ?></th>
                         </tr>
-                        <?php if($total_exent != 0): ?>
+                        
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Exento</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$total_exent, 2, '.', '')); ?></th>
                         </tr>
-                        <?php if($total_exo != 0): ?>
+                        
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Exonerado</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$total_exo , 2, '.', '')); ?></th>
                         </tr>
-                        <?php endif; ?>
-                        <?php endif; ?>
-                        <?php if($total_importe_quince != 0): ?>
+                      
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Gravado 15%</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$total_importe_quince - $total_product_tax_quince , 2, '.', '')); ?></th>
                         </tr>
-                        <?php endif; ?>
-                        <?php if($total_importe_ocho != 0): ?>
+                      
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">Importe Gravado 18%</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$total_importe_ocho - $total_product_tax_ocho, 2, '.', '')); ?></th>
                         </tr>
-                        <?php endif; ?>
-                        <?php if($total_product_tax_quince != 0): ?>
+                       
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">ISV 15%</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$total_product_tax_quince , 2, '.', '')); ?></th>
                         </tr>
-                        <?php endif; ?>
-                        <?php if($total_product_tax_ocho != 0): ?>
+                        
                         <tr style="border :none;">
                             <th colspan="2" style="text-align:left">ISV 18%</th>
                             <th style="text-align:right"><?php echo e(number_format((float)$total_product_tax_ocho , 2, '.', '')); ?></th>
                         </tr>
-                        <?php endif; ?>
+                       
                         <?php if($general_setting->invoice_format == 'gst' && $general_setting->state == 1): ?>
                         <tr style="border :none;">
                             <td colspan="2">IGST</td>

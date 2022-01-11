@@ -827,8 +827,11 @@ function edit(){
     $('input[name="edit_qty"]').val(qty);
 
     var porcen = (product_discount[rowindex] * 100)/product_price[rowindex]
-
-    $('input[name="edit_discount"]').val(parseFloat(porcen));
+    if(porcen == 0){
+        $('input[name="edit_discount"]').val('');
+    }else{
+        $('input[name="edit_discount"]').val(parseFloat(porcen));
+    }
 
     var tax_name_all = <?php echo json_encode($tax_name_all) ?>;
     pos = tax_name_all.indexOf(tax_name[rowindex]);
