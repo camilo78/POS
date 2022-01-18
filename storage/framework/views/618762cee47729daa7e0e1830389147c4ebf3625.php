@@ -877,7 +877,7 @@
                                     <?php endif; ?>
                                     <div class="col-md-12">
                                         <div class="search-box form-group">
-                                            <input type="text" name="product_code_name" id="lims_productcodeSearch" placeholder="Scan/Search product by name/code" class="form-control"  />
+                                            <input type="text" name="product_code_name" id="lims_productcodeSearch" placeholder="Escanear/busque Producto por nombre/código" class="form-control"  />
                                         </div>
                                     </div>
                                 </div>

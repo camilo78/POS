@@ -90,7 +90,6 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-5" id="slider-content"></div>
-                <div class="col-md-5 offset-1" id="product-content"></div>
                 <div class="col-md-6 mt-2" id="product-warehouse-section">
                     <h5>{{trans('file.Warehouse Quantity')}}</h5>
                     <table class="table table-bordered table-hover product-warehouse-list">
@@ -110,7 +109,8 @@
                     </table>
                 </div>
             </div>
-                
+            <div class="row col-md-12" id="product-content"></div>
+
             <h5 id="combo-header"></h5>
             <table class="table table-bordered table-hover item-list">
                 <thead>
@@ -188,7 +188,7 @@
         product[11] = product[11].replace(/@/g, '"');
         htmltext = slidertext = '';
 
-        htmltext = '<p><strong>{{trans("file.Type")}}: </strong>'+product[0]+'</p><p><strong>{{trans("file.name")}}: </strong>'+product[1]+'</p><p><strong>{{trans("file.Code")}}: </strong>'+product[2]+ '</p><p><strong>{{trans("file.Brand")}}: </strong>'+product[3]+'</p><p><strong>{{trans("file.category")}}: </strong>'+product[4]+'</p><p><strong>{{trans("file.Quantity")}}: </strong>'+product[17]+'</p><p><strong>{{trans("file.Unit")}}: </strong>'+product[5]+'</p><p><strong>{{trans("file.Cost")}}: </strong>'+product[6]+'</p><p><strong>{{trans("file.Price")}}: </strong>'+product[7]+'</p><p><strong>{{trans("file.Tax")}}: </strong>'+product[8]+'</p><p><strong>{{trans("file.Tax Method")}} : </strong>'+product[9]+'</p><p><strong>{{trans("file.Alert Quantity")}} : </strong>'+product[10]+'</p><p><strong>{{trans("file.Product Details")}}: </strong></p>'+product[11];
+        htmltext = '<div class="col-md-6"><p><strong>{{trans("file.Type")}}: </strong>'+product[0]+'</p><p><strong>{{trans("file.name")}}: </strong>'+product[1]+'</p><p><strong>{{trans("file.Code")}}: </strong>'+product[2]+ '</p><p><strong>{{trans("file.Brand")}}: </strong>'+product[3]+'</p><p><strong>{{trans("file.category")}}: </strong>'+product[4]+'</p><p><strong>{{trans("file.Quantity")}}: </strong>'+product[17]+'</p></div><div class="col-md-6"><p><strong>{{trans("file.Unit")}}: </strong>'+product[5]+'</p><p><strong>{{trans("file.Cost")}}: </strong>'+product[6]+'</p><p><strong>{{trans("file.Price")}}: </strong>'+product[7]+'</p><p><strong>{{trans("file.Tax")}}: </strong>'+product[8]+'</p><p><strong>{{trans("file.Tax Method")}} : </strong>'+product[9]+'</p><p><strong>{{trans("file.Alert Quantity")}} : </strong>'+product[10]+'</p><p><strong>{{trans("file.Product Details")}}: </strong></p>'+product[11]+'</div>';
 
         if(product[18]) {
             var product_image = product[18].split(",");

@@ -67,6 +67,7 @@ class PurchaseController extends Controller
             2 => 'note',
             5 => 'grand_total',
             6 => 'paid_amount',
+            7 => 'invoice',
         );
         
         $warehouse_id = $request->input('warehouse_id');
@@ -128,6 +129,10 @@ class PurchaseController extends Controller
                                 ['purchases.user_id', Auth::id()]
                             ])
                             ->orwhere([
+                                ['purchases.invoice', 'LIKE', "%{$search}%"],
+                                ['purchases.user_id', Auth::id()]
+                            ])
+                            ->orwhere([
                                 ['suppliers.name', 'LIKE', "%{$search}%"],
                                 ['purchases.user_id', Auth::id()]
                             ])
@@ -144,6 +149,10 @@ class PurchaseController extends Controller
                                 ['purchases.user_id', Auth::id()]
                             ])
                             ->orwhere([
+                                ['purchases.invoice', 'LIKE', "%{$search}%"],
+                                ['purchases.user_id', Auth::id()]
+                            ])
+                            ->orwhere([
                                 ['suppliers.name', 'LIKE', "%{$search}%"],
                                 ['purchases.user_id', Auth::id()]
                             ])
@@ -155,6 +164,7 @@ class PurchaseController extends Controller
                             ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
                             ->whereDate('purchases.created_at', '=' , date('Y-m-d', strtotime(str_replace('/', '-', $search))))
                             ->orwhere('purchases.note', 'LIKE', "%{$search}%")
+                            ->orwhere('purchases.invoice', 'LIKE', "%{$search}%")
                             ->orwhere('suppliers.name', 'LIKE', "%{$search}%")
                             ->offset($start)
                             ->limit($limit)
@@ -165,6 +175,7 @@ class PurchaseController extends Controller
                                 leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
                                 ->whereDate('purchases.created_at', '=' , date('Y-m-d', strtotime(str_replace('/', '-', $search))))
                                 ->orwhere('purchases.note', 'LIKE', "%{$search}%")
+                                ->orwhere('purchases.invoice', 'LIKE', "%{$search}%")
                                 ->orwhere('suppliers.name', 'LIKE', "%{$search}%")
                                 ->count();
             }
@@ -178,6 +189,7 @@ class PurchaseController extends Controller
                 $nestedData['key'] = $key;
                 $nestedData['date'] = date(config('date_format'), strtotime($purchase->created_at->toDateString()));
                 $nestedData['note'] = $purchase->note;
+                $nestedData['invoice'] = $purchase->invoice;
 
                 if($purchase->supplier_id) {
                     $supplier = $purchase->supplier;
@@ -242,7 +254,7 @@ class PurchaseController extends Controller
                 // data for purchase details by one click
                 $user = User::find($purchase->user_id);
 
-                $nestedData['purchase'] = array( '[ "'.date(config('date_format'), strtotime($purchase->created_at->toDateString())).'"', ' "'.$purchase->reference_no.'"', ' "'.$purchase_status.'"',  ' "'.$purchase->id.'"', ' "'.$purchase->warehouse->name.'"', ' "'.$purchase->warehouse->phone.'"', ' "'.$purchase->warehouse->address.'"', ' "'.$supplier->name.'"', ' "'.$supplier->company_name.'"', ' "'.$supplier->email.'"', ' "'.$supplier->phone_number.'"', ' "'.$supplier->address.'"', ' "'.$supplier->city.'"', ' "'.$purchase->total_tax.'"', ' "'.$purchase->total_discount.'"', ' "'.$purchase->total_cost.'"', ' "'.$purchase->order_tax.'"', ' "'.$purchase->order_tax_rate.'"', ' "'.$purchase->order_discount.'"', ' "'.$purchase->shipping_cost.'"', ' "'.$purchase->grand_total.'"', ' "'.$purchase->paid_amount.'"', ' "'.preg_replace('/\s+/S', " ", $purchase->note).'"', ' "'.$user->name.'"', ' "'.$user->email.'"]'
+                $nestedData['purchase'] = array( '[ "'.date(config('date_format'), strtotime($purchase->created_at->toDateString())).'"', ' "'.$purchase->invoice.'"', ' "'.$purchase_status.'"',  ' "'.$purchase->id.'"', ' "'.$purchase->warehouse->name.'"', ' "'.$purchase->warehouse->phone.'"', ' "'.$purchase->warehouse->address.'"', ' "'.$supplier->name.'"', ' "'.$supplier->company_name.'"', ' "'.$supplier->email.'"', ' "'.$supplier->phone_number.'"', ' "'.$supplier->address.'"', ' "'.$supplier->city.'"', ' "'.$purchase->total_tax.'"', ' "'.$purchase->total_discount.'"', ' "'.$purchase->total_cost.'"', ' "'.$purchase->order_tax.'"', ' "'.$purchase->order_tax_rate.'"', ' "'.$purchase->order_discount.'"', ' "'.$purchase->shipping_cost.'"', ' "'.$purchase->grand_total.'"', ' "'.$purchase->paid_amount.'"', ' "'.preg_replace('/\s+/S', " ", $purchase->note).'"', ' "'.$user->name.'"', ' "'.$user->email.'"]'
                 );
                 $data[] = $nestedData;
             }
@@ -376,6 +388,7 @@ class PurchaseController extends Controller
         $lims_purchase_data = Purchase::latest()->first();
         $product_id = $data['product_id'];
         $product_code = $data['product_code'];
+        $product_invoice = $data['invoice'];
         $qty = $data['qty'];
         $recieved = $data['recieved'];
         $batch_no = $data['batch_no'];
@@ -703,6 +716,7 @@ class PurchaseController extends Controller
 
         $product_id = $data['product_id'];
         $product_code = $data['product_code'];
+        $product_invoice = $data['invoice'];
         $qty = $data['qty'];
         $recieved = $data['recieved'];
         $batch_no = $data['batch_no'];

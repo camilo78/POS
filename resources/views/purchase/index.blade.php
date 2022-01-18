@@ -62,20 +62,22 @@
                 <tr>
                     <th class="not-exported"></th>
                     <th>{{trans('file.Date')}}</th>
-                    <th>Nota</th>
+                    <th>N° {{trans('file.Invoice')}}</th>
                     <th>{{trans('file.Supplier')}}</th>
                     <th>{{trans('file.Purchase Status')}}</th>
                     <th>{{trans('file.grand total')}}</th>
                     <th>{{trans('file.Paid')}}</th>
                     <th>{{trans('file.Due')}}</th>
                     <th>{{trans('file.Payment Status')}}</th>
+                    <th>Nota</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
             
             <tfoot class="tfoot active">
                 <th></th>
-                <th>{{trans('file.Total')}}</th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -541,13 +543,14 @@
             "columns": [
                 {"data": "key"},
                 {"data": "date"},
-                {"data": "note"},
+                {"data": "invoice"},
                 {"data": "supplier"},
                 {"data": "purchase_status"},
                 {"data": "grand_total"},
                 {"data": "paid_amount"},
                 {"data": "due"},
                 {"data": "payment_status"},
+                {"data": "note"},
                 {"data": "options"},
             ],
             'language': {
@@ -690,7 +693,7 @@
     }
 
     function purchaseDetails(purchase){
-        var htmltext = '<strong>{{trans("file.Date")}}: </strong>'+purchase[0]+'<br><strong>{{trans("file.reference")}}: </strong>'+purchase[1]+'<br><strong>{{trans("file.Purchase Status")}}: </strong>'+purchase[2]+'<br><br><div class="row"><div class="col-md-6"><strong>{{trans("file.From")}}:</strong><br>'+purchase[4]+'<br>'+purchase[5]+'<br>'+purchase[6]+'</div><div class="col-md-6"><div class="float-right"><strong>{{trans("file.To")}}:</strong><br>'+purchase[7]+'<br>'+purchase[8]+'<br>'+purchase[9]+'<br>'+purchase[10]+'<br>'+purchase[11]+'<br>'+purchase[12]+'</div></div></div>';
+        var htmltext = '<strong>{{trans("file.Date")}}: </strong>'+purchase[0]+'<br><strong>N°. {{trans("file.Invoice")}}: </strong>'+purchase[1]+'<br><strong>{{trans("file.Purchase Status")}}: </strong>'+purchase[2]+'<br><br><div class="row"><div class="col-md-6"><strong>{{trans("file.From")}}:</strong><br>'+purchase[4]+'<br>'+purchase[5]+'<br>'+purchase[6]+'</div><div class="col-md-6"><div class="float-right"><strong>{{trans("file.To")}}:</strong><br>'+purchase[7]+'<br>'+purchase[8]+'<br>'+purchase[9]+'<br>'+purchase[10]+'<br>'+purchase[11]+'<br>'+purchase[12]+'</div></div></div>';
 
         $.get('purchases/product_purchase/' + purchase[3], function(data){
             $(".product-purchase-list tbody").remove();

@@ -146,7 +146,7 @@
                         }
                         elseif($product_sale_data->product_batch_id) {
                         $product_batch_data = \App\ProductBatch::select('batch_no')->find($product_sale_data->product_batch_id);
-                        $product_name = $lims_product_data->name.' ['.trans("file.Batch No").':'.$product_batch_data->batch_no.']';
+                        $product_name = $lims_product_data->name;
                         }
                         else{
                         $product_name = $lims_product_data->name;

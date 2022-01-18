@@ -69,6 +69,12 @@
                                             @endif
                                         </div>
                                     </div>
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>N°. {{trans('file.Invoice')}}</label>
+                                            <input type="text" class="form-control" name="invoice" value="{{ $lims_purchase_data->invoice }}">
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 mt-3">
                                         <label>{{trans('file.Select Product')}}</label>
                                         <div class="search-box input-group">

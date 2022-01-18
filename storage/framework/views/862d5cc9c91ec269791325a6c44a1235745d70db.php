@@ -70,6 +70,12 @@
                                             <?php endif; ?>
                                         </div>
                                     </div>
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>N°. <?php echo e(trans('file.Invoice')); ?></label>
+                                            <input type="text" class="form-control" name="invoice" value="<?php echo e($lims_purchase_data->invoice); ?>">
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 mt-3">
                                         <label><?php echo e(trans('file.Select Product')); ?></label>
                                         <div class="search-box input-group">
@@ -896,4 +902,5 @@ $('#purchase-form').on('submit',function(e){
 });
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/salepro/resources/views/purchase/edit.blade.php ENDPATH**/ ?>

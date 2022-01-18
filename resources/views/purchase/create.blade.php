@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                                 <div class="row">  
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{trans('file.Purchase Status')}}</label>
                                             <select name="status" class="form-control">
@@ -49,7 +49,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{trans('file.Attach Document')}}</label> <i class="dripicons-question" data-toggle="tooltip" title="Only jpg, jpeg, png, gif, pdf, csv, docx, xlsx and txt file is supported"></i>
                                             <input type="file" name="document" class="form-control" >
@@ -58,6 +58,12 @@
                                                    <strong>{{ $errors->first('extension') }}</strong>
                                                 </span>
                                             @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>N°. {{trans('file.Invoice')}}</label>
+                                            <input type="text" class="form-control" name="invoice">
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3">
