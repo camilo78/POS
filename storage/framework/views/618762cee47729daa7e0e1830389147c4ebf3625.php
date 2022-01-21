@@ -1245,9 +1245,7 @@
                                   </ul>
                             </li>
                             <?php endif; ?>
-                            <li class="nav-item">
-                                <a class="dropdown-item" data-toggle="tooltip" title="<?php echo e(trans('file.Help')); ?>" href="<?php echo e(url('read_me')); ?>" target="_blank"><i class="dripicons-information"></i></a>
-                            </li>&nbsp;
+
                             <li class="nav-item">
                                   <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-item"><i class="dripicons-user"></i> <span><?php echo e(ucfirst(Auth::user()->name)); ?></span> <i class="fa fa-angle-down"></i>
                                   </a>

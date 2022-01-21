@@ -76,9 +76,9 @@ class CashRegisterController extends Controller
                                     ['cash_register_id', $cash_register_data->id],
                                     ['paying_method', 'Paypal']
                                 ])->sum('amount');
-        $sales = Sale::where('cash_register_id', $cash_register_data->id)->get();
-        $total_tax = Sale::where('cash_register_id', $cash_register_data->id)->sum('total_tax');
-        $grand_total = Sale::where('cash_register_id', $cash_register_data->id)->sum('grand_total');
+        $sales = Sale::where([['cash_register_id', $cash_register_data->id],['sale_status', 1]])->get();
+        $total_tax = Sale::where([['cash_register_id', $cash_register_data->id],['sale_status', 1]])->sum('total_tax');
+        $grand_total = Sale::where([['cash_register_id', $cash_register_data->id],['sale_status', 1]])->sum('grand_total');
         $importe_15_imp = 0;
         $importe_18_imp = 0;
         $tax_15_imp = 0;

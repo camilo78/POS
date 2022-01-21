@@ -22,7 +22,6 @@ Route::group(['middleware' => ['auth', 'active']], function() {
 	Route::get('/', 'HomeController@index');
 	Route::get('/dashboard-filter/{start_date}/{end_date}', 'HomeController@dashboardFilter');
 	Route::get('check-batch-availability/{product_id}/{batch_no}/{warehouse_id}', 'ProductController@checkBatchAvailability');
-
 	Route::get('language_switch/{locale}', 'LanguageController@switchLanguage');
 
 	Route::get('role/permission/{id}', 'RoleController@permission')->name('role.permission');
