@@ -21,6 +21,11 @@ class Product extends Model
     	return $this->belongsTo('App\Brand');
     }
 
+    public function tax()
+    {
+        return $this->belongsTo('App\Tax');
+    }
+
     public function unit()
     {
         return $this->belongsTo('App\Unit');

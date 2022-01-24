@@ -37,7 +37,7 @@
                     <th><?php echo e(trans('file.Unit')); ?></th>
                     <th><?php echo e(trans('file.Price')); ?></th>
                     <th><?php echo e(trans('file.Cost')); ?></th>
-                    <th><?php echo e(trans('file.Stock Worth (Price/Cost)')); ?></th>
+                    <th>Impuesto</th>
                     <th class="not-exported"><?php echo e(trans('file.action')); ?></th>
                 </tr>
             </thead>
@@ -362,7 +362,7 @@
             'columnDefs': [
                 {
                     "orderable": false,
-                    'targets': [0, 1, 9, 10, 11]
+                    'targets': [0, 1, 9, 10]
                 },
                 {
                     'render': function(data, type, row, meta){

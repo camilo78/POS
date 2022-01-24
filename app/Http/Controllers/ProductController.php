@@ -159,11 +159,18 @@ class ProductController extends Controller
                 $nestedData['price'] = $product->price;
                 $nestedData['cost'] = $product->cost;
 
-                if(config('currency_position') == 'prefix')
+                /*if(config('currency_position') == 'prefix')
                     $nestedData['stock_worth'] = config('currency').' '.($product->qty * $product->price).' / '.config('currency').' '.($product->qty * $product->cost);
                 else
-                    $nestedData['stock_worth'] = ($product->qty * $product->price).' '.config('currency').' / '.($product->qty * $product->cost).' '.config('currency');
+                    $nestedData['stock_worth'] = ($product->qty * $product->price).' '.config('currency').' / '.($product->qty * $product->cost).' '.config('currency');*/
                 //$nestedData['stock_worth'] = ($product->qty * $product->price).'/'.($product->qty * $product->cost);
+                    if ($product->tax_id == 1) {
+                        $nestedData['stock_worth'] = "15%";
+                    }elseif ($product->tax_id == 2) {
+                        $nestedData['stock_worth'] = "18%";
+                    }else{
+                        $nestedData['stock_worth'] = "Exento";
+                    }
 
                 $nestedData['options'] = '<div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.trans("file.action").'

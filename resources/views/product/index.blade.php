@@ -37,7 +37,7 @@
                     <th>{{trans('file.Unit')}}</th>
                     <th>{{trans('file.Price')}}</th>
                     <th>{{trans('file.Cost')}}</th>
-                    <th>{{trans('file.Stock Worth (Price/Cost)')}}</th>
+                    <th>Impuesto</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
@@ -358,7 +358,7 @@
             'columnDefs': [
                 {
                     "orderable": false,
-                    'targets': [0, 1, 9, 10, 11]
+                    'targets': [0, 1, 9, 10]
                 },
                 {
                     'render': function(data, type, row, meta){
